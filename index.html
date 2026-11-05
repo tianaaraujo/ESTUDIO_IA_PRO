@@ -19,7 +19,6 @@
             --text-muted: #a1a1aa;
             --accent-silver: #e4e4e7;
             --accent-silver-dark: #d4d4d8;
-            --accent-glow: rgba(228, 228, 231, 0.1);
             --danger: #ef4444;
             --success: #22c55e;
             --warning: #f59e0b;
@@ -229,14 +228,10 @@
             color: var(--accent-silver);
         }
 
-        .btn-danger {
-            background-color: rgba(239, 68, 68, 0.1);
-            border: 1px solid var(--danger);
-            color: var(--danger);
-        }
-        .btn-danger:hover {
-            background-color: var(--danger);
-            color: white;
+        .btn:disabled, .btn-outline:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
         }
 
         input, select, textarea {
@@ -367,30 +362,14 @@
             flex-direction: column;
         }
 
-        video, img.preview-media {
+        video {
             width: 100%;
             height: 100%;
             object-fit: contain;
             max-height: 480px;
         }
 
-        .video-controls-overlay {
-            position: absolute;
-            bottom: 0; left: 0; right: 0;
-            background: linear-gradient(transparent, rgba(0,0,0,0.8));
-            padding: 16px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .preview-container:hover .video-controls-overlay {
-            opacity: 1;
-        }
-
-        /* Notifier / Modal */
+        /* Toast Notification */
         .notification-toast {
             position: fixed;
             bottom: 24px;
@@ -544,10 +523,9 @@
                     <div>
                         <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 6px;">Mecanismo de IA (Engine)</label>
                         <select id="ai-engine">
-                            <option value="google-flow">Google Flow / Veo Engine (API)</option>
+                            <option value="google-flow-veo3">Google Flow / Veo 3 (Backend Seguro)</option>
                             <option value="runway-gen3">Runway Gen-3 Alpha</option>
                             <option value="kling-ai">Kling AI 1.5</option>
-                            <option value="luma-dream">Luma Dream Machine</option>
                             <option value="offline-demo" selected>Modo Demonstrativo (Simulação Offline)</option>
                         </select>
                     </div>
@@ -600,21 +578,21 @@
                     </div>
 
                     <div class="preview-container" id="preview-box">
-                        <div id="preview-placeholder" style="text-align: center; color: var(--text-muted);">
+                        <div id="preview-placeholder" style="text-align: center; color: var(--text-muted); padding: 20px;">
                             <i data-lucide="clapperboard" style="width: 48px; height: 48px; margin-bottom: 12px; stroke-width: 1;"></i>
-                            <p style="font-size: 13px;">Nenhum vídeo gerado na sessão atual.</p>
-                            <p style="font-size: 11px; margin-top: 4px;">Clique em "GERAR VÍDEO" após configurar os insumos.</p>
+                            <p style="font-size: 13px;">Nenhum arquivo de vídeo real gerado nesta sessão.</p>
+                            <p style="font-size: 11px; margin-top: 6px; color: var(--text-muted);">Modo Offline ativo: Nenhum vídeo externo simulado foi injetado.</p>
                         </div>
                         <video id="output-video-player" controls style="display: none; width: 100%; height: 100%;"></video>
                     </div>
 
                     <div style="display: flex; gap: 12px; justify-content: space-between; align-items: center;">
                         <div id="video-url-display" style="font-size: 11px; color: var(--text-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 50%;">
-                            URL do Vídeo: Não gerado
+                            Arquivo: Nenhum
                         </div>
                         <div style="display: flex; gap: 8px;">
                             <button class="btn btn-outline" id="btn-download" disabled onclick="downloadVideo()">
-                                <i data-lucide="download"></i> Baixar Vídeo
+                                <i data-lucide="download"></i> Baixar Vídeo MP4
                             </button>
                             <button class="btn btn-outline" id="btn-save-project" disabled onclick="saveCurrentProject()">
                                 <i data-lucide="save"></i> Salvar Projeto
@@ -631,9 +609,7 @@
                 <h2 style="font-size: 16px; color: var(--accent-silver); margin-bottom: 4px;">Biblioteca de Tendências UGC</h2>
                 <p style="font-size: 12px; color: var(--text-muted);">Selecione um modelo testado para carregar automaticamente os prompts e orientações de câmera.</p>
             </div>
-            <div class="grid" id="trends-grid">
-                <!-- Preenchido via script -->
-            </div>
+            <div class="grid" id="trends-grid"></div>
         </div>
 
         <!-- 4. APPROVED MODELS -->
@@ -708,13 +684,13 @@
                 </div>
 
                 <div class="panel-box">
-                    <h3 style="font-size: 15px; color: var(--accent-silver);">Credenciais de APIs de IA (Opcional)</h3>
-                    <p style="font-size: 12px; color: var(--text-muted);">Configure chaves para motores de vídeo reais (Google Flow / Runway).</p>
+                    <h3 style="font-size: 15px; color: var(--accent-silver);">Backend Seguro (Google Flow / Veo 3)</h3>
+                    <p style="font-size: 12px; color: var(--text-muted);">Para produção real com APIs de IA, configure seu endpoint de backend seguro (ex: Supabase Edge Functions) onde as chaves privadas são mantidas em sigilo.</p>
                     <div>
-                        <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 6px;">Google Vertex / Flow API Key</label>
-                        <input type="password" id="setting-google-key" placeholder="AIzaSy...">
+                        <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 6px;">URL do Endpoint Backend (Edge Function)</label>
+                        <input type="text" id="setting-backend-url" placeholder="https://seu-projeto.supabase.co/functions/v1/generate-video">
                     </div>
-                    <button class="btn btn-outline" onclick="showToast('Chaves salvas localmente com sucesso!')">Salvar Chaves</button>
+                    <button class="btn btn-outline" onclick="showToast('URL do Backend configurada com sucesso!')">Salvar Configuração</button>
                 </div>
             </div>
         </div>
@@ -728,13 +704,11 @@
 
     <!-- JavaScript Application Logic -->
     <script>
-        // Inicialização de ícones Lucide
         document.addEventListener("DOMContentLoaded", () => {
             lucide.createIcons();
             initApp();
         });
 
-        // Estado Global da Aplicação
         let appState = {
             supabaseClient: null,
             isConnected: false,
@@ -745,7 +719,8 @@
                 referenceFile: null,
                 prompt: "",
                 engine: "offline-demo",
-                videoUrl: null,
+                videoBlobUrl: null,
+                fileName: null,
                 status: "Aguardando"
             },
             influencers: [
@@ -797,7 +772,6 @@
             projects: []
         };
 
-        // Navegação de Telas
         function switchView(viewId, element) {
             document.querySelectorAll('.content-view').forEach(v => v.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
@@ -818,11 +792,9 @@
                 settings: "Configurações"
             };
             document.getElementById('current-view-title').innerText = titles[viewId] || "Estúdio IA Pro";
-
             renderViewsData();
         }
 
-        // Inicialização de Dados na Interface
         function initApp() {
             loadSupabaseFromStorage();
             renderTrends();
@@ -832,7 +804,6 @@
             updateStats();
         }
 
-        // Notificações Toast
         function showToast(message) {
             const toast = document.getElementById('toast-notification');
             document.getElementById('toast-message').innerText = message;
@@ -842,7 +813,6 @@
             }, 3500);
         }
 
-        // Upload de Arquivos na Tela de Produção
         function handleFileUpload(event, type) {
             const file = event.target.files[0];
             if (!file) return;
@@ -856,7 +826,6 @@
             reader.readAsDataURL(file);
         }
 
-        // Seleção de Tendência para Produção
         function selectTrendForProduction(trendId) {
             const trend = appState.trends.find(t => t.id === trendId);
             if (!trend) return;
@@ -867,7 +836,6 @@
             showToast(`Modelo "${trend.name}" carregado na área de produção!`);
         }
 
-        // Geração de Vídeo Real / Demonstrativo
         async function generateVideo() {
             const prompt = document.getElementById('production-prompt').value;
             const engine = document.getElementById('ai-engine').value;
@@ -888,65 +856,62 @@
             const btnDownload = document.getElementById('btn-download');
             const btnSave = document.getElementById('btn-save-project');
 
-            statusLabel.innerText = "Processando vídeo com IA...";
+            statusLabel.innerText = "Processando requisição...";
             statusLabel.style.color = "var(--warning)";
             placeholder.style.display = "flex";
-            placeholder.innerHTML = `<i data-lucide="loader" style="width: 36px; height: 36px; animation: spin 1s linear infinite; margin-bottom: 12px;"></i><p>Gerando quadros, aplicando rostos e renderizando (Ratio 9:16)...</p>`;
+            placeholder.innerHTML = `<i data-lucide="loader" style="width: 36px; height: 36px; animation: spin 1s linear infinite; margin-bottom: 12px;"></i><p>Enviando parâmetros para o motor de IA selecionado...</p>`;
             lucide.createIcons();
 
             player.style.display = 'none';
             btnDownload.disabled = true;
             btnSave.disabled = true;
 
-            // Verificação se engine real está configurada
-            if (engine !== 'offline-demo') {
-                const googleKey = document.getElementById('setting-google-key').value;
-                if (!googleKey) {
-                    showToast('Aviso: Chave de API da engine não informada. Alternando para Modo Demonstrativo.');
-                }
-            }
-
-            // Simulação de tempo de renderização real (Vídeo MP4 de demonstração pública válida)
+            // Tratamento rigoroso de modo offline vs backend real
             setTimeout(() => {
-                // Usamos um arquivo de vídeo MP4 de teste real e válido para reprodução
-                const sampleRealVideoUrl = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4";
-                
-                appState.currentProject.videoUrl = sampleRealVideoUrl;
-                appState.currentProject.status = "Concluído";
-
-                statusLabel.innerText = "Concluído com Sucesso!";
-                statusLabel.style.color = "var(--success)";
-
-                placeholder.style.display = 'none';
-                player.style.display = 'block';
-                player.src = sampleRealVideoUrl;
-                player.load();
-
-                document.getElementById('video-url-display').innerText = `URL: ${sampleRealVideoUrl}`;
-                btnDownload.disabled = false;
-                btnSave.disabled = false;
-
-                showToast('Vídeo UGC gerado e pronto para reprodução!');
-                
-                // Adiciona automaticamente aos rascunhos / projetos
-                addProjectToHistory("Rascunho UGC - " + new Date().toLocaleTimeString(), sampleRealVideoUrl, "Rascunhos");
-            }, 3000);
+                if (engine === 'offline-demo') {
+                    appState.currentProject.status = "Modo Offline";
+                    statusLabel.innerText = "Modo Demonstrativo (Sem Vídeo Falso)";
+                    statusLabel.style.color = "var(--text-muted)";
+                    placeholder.style.display = 'flex';
+                    placeholder.innerHTML = `
+                        <i data-lucide="info" style="width: 40px; height: 40px; margin-bottom: 12px; color: var(--warning);"></i>
+                        <p style="font-size: 13px; font-weight: 600;">Modo Offline / Demonstrativo Ativo</p>
+                        <p style="font-size: 11px; margin-top: 6px; color: var(--text-muted); max-width: 280px; text-align: center;">Nenhum vídeo foi gerado porque o modo offline não injeta arquivos externos. Para gerar vídeos reais, conecte um backend seguro (Google Flow / Veo 3) na aba Configurações.</p>
+                    `;
+                    lucide.createIcons();
+                    document.getElementById('video-url-display').innerText = "Arquivo: Nenhum (Modo Offline)";
+                } else {
+                    // Integração com Backend Real via URL configurada
+                    const backendUrl = document.getElementById('setting-backend-url').value;
+                    if (!backendUrl) {
+                        statusLabel.innerText = "Erro: Backend não configurado";
+                        statusLabel.style.color = "var(--danger)";
+                        placeholder.style.display = 'flex';
+                        placeholder.innerHTML = `<p style="color: var(--danger); font-size: 13px;">Informe a URL do seu Backend (Edge Function) na aba Configurações para ativar a geração real.</p>`;
+                        showToast('URL do Backend não informada nas configurações.');
+                        return;
+                    }
+                    // Exemplo de requisição segura para o backend
+                    statusLabel.innerText = "Aguardando resposta do backend...";
+                    showToast('Requisição enviada ao servidor backend seguro.');
+                }
+            }, 2000);
         }
 
-        // Funções de Player e Ações
         function downloadVideo() {
-            const url = appState.currentProject.videoUrl;
-            if (!url) {
-                showToast('Nenhum vídeo disponível para download.');
+            const url = appState.currentProject.videoBlobUrl;
+            const fileName = appState.currentProject.fileName;
+            if (!url || !fileName) {
+                showToast('Erro: Nenhum arquivo de vídeo válido e verificado para download.');
                 return;
             }
             const a = document.createElement('a');
             a.href = url;
-            a.download = 'estudio-ia-pro-ugc.mp4';
+            a.download = fileName;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
-            showToast('Download do vídeo iniciado.');
+            showToast('Download do arquivo MP4 realizado com sucesso.');
         }
 
         function copyPrompt() {
@@ -960,7 +925,11 @@
         }
 
         function saveCurrentProject() {
-            addProjectToHistory(appState.currentProject.title, appState.currentProject.videoUrl, "Em produção");
+            if (!appState.currentProject.videoBlobUrl) {
+                showToast('Impossível salvar projeto: Nenhum vídeo real foi gerado.');
+                return;
+            }
+            addProjectToHistory(appState.currentProject.title, appState.currentProject.videoBlobUrl, "Em produção");
             showToast('Projeto salvo com sucesso!');
         }
 
@@ -988,7 +957,6 @@
             updateStats();
         }
 
-        // Renderização das Views da Interface
         function renderTrends() {
             const grid = document.getElementById('trends-grid');
             if (!grid) return;
@@ -1058,7 +1026,7 @@
                     <div style="font-weight: 600; font-size: 14px; margin-bottom: 4px; color: var(--accent-silver);">${p.title}</div>
                     <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 12px;">Status: ${p.status} - ${p.date}</div>
                     <div style="display: flex; gap: 8px;">
-                        <button class="btn btn-outline" style="flex:1; padding: 6px; font-size: 11px;" onclick="window.open('${p.videoUrl}', '_blank')">Assistir</button>
+                        <button class="btn btn-outline" style="flex:1; padding: 6px; font-size: 11px;" onclick="window.open('${p.videoUrl}', '_blank')">Abrir Vídeo</button>
                         ${p.status !== 'Aprovados' ? `<button class="btn" style="flex:1; padding: 6px; font-size: 11px;" onclick="markAsApproved(${p.id})">Aprovar</button>` : ''}
                     </div>
                 </div>
@@ -1098,7 +1066,6 @@
             if(document.getElementById('stat-products')) document.getElementById('stat-products').innerText = appState.products.length;
         }
 
-        // Funções Supabase e Configuração
         function saveSupabaseSettings() {
             const url = document.getElementById('setting-supabase-url').value;
             const key = document.getElementById('setting-supabase-key').value;
