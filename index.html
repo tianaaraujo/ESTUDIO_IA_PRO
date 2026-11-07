@@ -43,8 +43,9 @@ body {
     overflow-x: hidden;
 }
 
+/* SIDEBAR */
 aside {
-    width: 248px;
+    width: 250px;
     background-color: var(--bg-panel);
     border-right: 1px solid var(--border-color);
     display: flex;
@@ -110,7 +111,10 @@ aside {
     font-size: 0.85rem;
     font-weight: 600;
     cursor: pointer;
+    transition: background 0.2s;
 }
+
+.btn-new-prod:hover { background-color: var(--accent-blue-hover); }
 
 nav.menu {
     padding: 10px 12px;
@@ -143,6 +147,7 @@ nav.menu {
     border: 1px solid transparent;
     width: 100%;
     text-align: left;
+    transition: all 0.2s;
 }
 
 .nav-item:hover, .nav-item.active {
@@ -151,8 +156,9 @@ nav.menu {
     border-color: rgba(0, 102, 255, 0.35);
 }
 
+/* MAIN AREA */
 main {
-    margin-left: 248px;
+    margin-left: 250px;
     flex: 1;
     padding: 26px 34px 40px;
     max-width: 1560px;
@@ -255,6 +261,7 @@ input, select, textarea {
     font-weight: 600;
     cursor: pointer;
     width: 100%;
+    transition: background 0.2s;
 }
 
 .btn:hover { background-color: var(--accent-blue-hover); }
@@ -264,6 +271,7 @@ input, select, textarea {
     border: 1px solid var(--border-color);
 }
 
+/* SECTIONS */
 .tab-section { display: none; }
 .tab-section.active { display: block; }
 
@@ -292,6 +300,7 @@ input, select, textarea {
     z-index: 300;
     opacity: 0;
     transition: opacity 0.2s;
+    pointer-events: none;
 }
 .toast-msg.show { opacity: 1; }
 
@@ -322,10 +331,12 @@ input, select, textarea {
 
     <nav class="menu">
         <div class="menu-section-title">Estúdio</div>
-        <button type="button" class="nav-item active" id="nav-tab-ugc" onclick="switchTab('tab-ugc')">🎬 Cena UGC (3 Cenas)</button>
-        <button type="button" class="nav-item" id="nav-tab-script" onclick="switchTab('tab-script')">📝 Roteirista IA</button>
-        <button type="button" class="nav-item" id="nav-tab-avatars" onclick="switchTab('tab-avatars')">👤 Influenciadoras</button>
-        <button type="button" class="nav-item" id="nav-tab-library" onclick="switchTab('tab-library')">📚 Biblioteca</button>
+        <button type="button" class="nav-item active" onclick="switchTab('tab-ugc')">🎬 Cena UGC (3 Cenas)</button>
+        <button type="button" class="nav-item" onclick="switchTab('tab-video')">🎥 Vídeo 10s (Veo)</button>
+        <button type="button" class="nav-item" onclick="switchTab('tab-script')">📝 Roteirista IA</button>
+        <button type="button" class="nav-item" onclick="switchTab('tab-avatars')">👤 Influenciadoras</button>
+        <button type="button" class="nav-item" onclick="switchTab('tab-library')">📚 Biblioteca</button>
+        <button type="button" class="nav-item" onclick="switchTab('tab-settings')">⚙️ Configurações</button>
     </nav>
 </aside>
 
@@ -374,7 +385,28 @@ input, select, textarea {
         </div>
     </section>
 
-    <!-- ABA 2: ROTEIRISTA -->
+    <!-- ABA 2: VÍDEO 10S -->
+    <section id="tab-video" class="tab-section">
+        <div class="grid-2">
+            <div class="card">
+                <div class="card-header"><h3>Produção de Vídeo (Veo)</h3></div>
+                <div class="form-group">
+                    <label>Ação Principal</label>
+                    <input type="text" id="vid-action" placeholder="Ex: Tiana sorrindo e mostrando o produto...">
+                </div>
+                <button type="button" class="btn" onclick="generateVideo()">🎥 Gerar Prompt Veo (10s)</button>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h3>Prompt de Vídeo</h3>
+                    <button type="button" class="btn btn-secondary" style="width:auto; padding:6px 12px;" onclick="copyOutput('vid-output')">Copiar</button>
+                </div>
+                <div id="vid-output" class="output-box">O prompt para o Veo aparecerá aqui...</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABA 3: ROTEIRISTA -->
     <section id="tab-script" class="tab-section">
         <div class="grid-2">
             <div class="card">
@@ -399,27 +431,40 @@ input, select, textarea {
         </div>
     </section>
 
-    <!-- ABA 3: INFLUENCIADORAS -->
+    <!-- ABA 4: INFLUENCIADORAS -->
     <section id="tab-avatars" class="tab-section">
         <div class="card" style="max-width:600px;">
-            <div class="card-header"><h3>Gerenciador de Avatar</h3></div>
+            <div class="card-header"><h3>Gerenciador de Influenciadoras</h3></div>
             <div class="form-group">
-                <label>Nome</label>
-                <input type="text" value="Tiana">
+                <label>Nome da Influenciadora</label>
+                <input type="text" id="avatar-name" value="Tiana">
             </div>
             <div class="form-group">
                 <label>Características (Seed Visual)</label>
-                <textarea>Tiana, influenciadora digital brasileira de aproximadamente 24 anos, cabelo preto longo e liso, olhos castanhos claros, pele natural.</textarea>
+                <textarea id="avatar-traits">Tiana, influenciadora digital brasileira de aproximadamente 24 anos, cabelo preto longo e liso, olhos castanhos claros, pele natural.</textarea>
             </div>
-            <button type="button" class="btn" onclick="showToast('Avatar salvo com sucesso!')">💾 Salvar Alterações</button>
+            <button type="button" class="btn" onclick="showToast('Influenciadora salva com sucesso!')">💾 Salvar Alterações</button>
         </div>
     </section>
 
-    <!-- ABA 4: BIBLIOTECA -->
+    <!-- ABA 5: BIBLIOTECA -->
     <section id="tab-library" class="tab-section">
         <div class="card">
-            <div class="card-header"><h3>Projetos Salvos</h3></div>
+            <div class="card-header"><h3>Biblioteca de Projetos</h3></div>
             <p style="color:var(--text-muted); font-size:0.9rem;">Nenhum projeto salvo no momento.</p>
+        </div>
+    </section>
+
+    <!-- ABA 6: CONFIGURAÇÕES -->
+    <section id="tab-settings" class="tab-section">
+        <div class="card" style="max-width:600px;">
+            <div class="card-header"><h3>Configurações</h3></div>
+            <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom: 20px;">Gerencie as conexões do seu Estúdio.</p>
+            <div class="form-group">
+                <label>URL do Google Flow</label>
+                <input type="text" placeholder="https://flow.google.com...">
+            </div>
+            <button type="button" class="btn" onclick="showToast('Configurações salvas!')">Salvar Configurações</button>
         </div>
     </section>
 </main>
@@ -429,18 +474,48 @@ input, select, textarea {
 <script>
 function showToast(msg) {
     const t = document.getElementById('toast');
+    if (!t) return;
     t.textContent = msg;
     t.classList.add('show');
     setTimeout(() => t.classList.remove('show'), 2500);
 }
 
 function switchTab(tabId) {
-    document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
-    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    // Esconde todas as seções
+    const sections = document.querySelectorAll('.tab-section');
+    sections.forEach(s => s.classList.remove('active'));
     
-    document.getElementById(tabId).classList.add('active');
-    const navBtn = document.getElementById('nav-' + tabId);
-    if (navBtn) navBtn.classList.add('active');
+    // Remove classe ativa de todos os botões do menu
+    const navButtons = document.querySelectorAll('.nav-item');
+    navButtons.forEach(n => n.classList.remove('active'));
+    
+    // Mostra a seção alvo
+    const targetSection = document.getElementById(tabId);
+    if (targetSection) {
+        targetSection.classList.add('active');
+    }
+    
+    // Marca o botão clicado como ativo
+    // Encontra o botão que chama switchTab com o tabId correspondente
+    navButtons.forEach(btn => {
+        if (btn.getAttribute('onclick').includes(tabId)) {
+            btn.classList.add('active');
+        }
+    });
+
+    const headers = {
+        'tab-ugc': ['Gerador UGC & Cena', 'Crie prompts otimizados em storyboard de 3 cenas.'],
+        'tab-video': ['Produção de Vídeo (Veo)', 'Gere prompts otimizados para vídeo de 10 segundos.'],
+        'tab-script': ['Roteirista IA', 'Crie roteiros persuasivos com ganchos virais.'],
+        'tab-avatars': ['Influenciadoras', 'Gerencie a identidade visual das influenciadoras.'],
+        'tab-library': ['Biblioteca de Projetos', 'Acesse e gerencie seus projetos salvos.'],
+        'tab-settings': ['Configurações', 'Configure o acesso ao Google Flow e APIs.']
+    };
+
+    if (headers[tabId]) {
+        document.getElementById('header-title').textContent = headers[tabId][0];
+        document.getElementById('header-desc').textContent = headers[tabId][1];
+    }
 }
 
 function generateUGC() {
@@ -451,6 +526,14 @@ function generateUGC() {
     
     document.getElementById('ugc-output').textContent = text;
     showToast('Prompts gerados com sucesso!');
+}
+
+function generateVideo() {
+    const action = document.getElementById('vid-action').value || 'Ação da influenciadora';
+    const text = `GOOGLE FLOW VEO — VÍDEO 10S\n\nIDENTIDADE: Tiana (Seed Fixa)\nAÇÃO: ${action}\nFORMATO: Vertical 9:16\nQUALIDADE: Vídeo UGC realista de alta definição.`;
+    
+    document.getElementById('vid-output').textContent = text;
+    showToast('Prompt do Veo gerado!');
 }
 
 function generateScript() {
@@ -464,7 +547,9 @@ function generateScript() {
 }
 
 function copyOutput(id) {
-    const content = document.getElementById(id).textContent;
+    const element = document.getElementById(id);
+    if (!element) return;
+    const content = element.textContent;
     navigator.clipboard.writeText(content).then(() => {
         showToast('Copiado para a área de transferência!');
     });
