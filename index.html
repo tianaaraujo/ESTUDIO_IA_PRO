@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Estúdio IA PRO — UGC & AI Production Studio</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 :root {
@@ -21,7 +22,9 @@
     --border-color: #1e2230;
     --border-highlight: #2a3042;
     --danger: #ef4444;
+    --danger-hover: #dc2626;
     --success: #10b981;
+    --warning: #f59e0b;
     --radius-lg: 14px;
     --radius-md: 10px;
     --radius-sm: 8px;
@@ -43,7 +46,6 @@ body {
     overflow-x: hidden;
 }
 
-/* SIDEBAR */
 aside {
     width: 250px;
     background-color: var(--bg-panel);
@@ -75,7 +77,7 @@ aside {
     width: 32px;
     height: 32px;
     border-radius: 8px;
-    background: var(--accent-blue);
+    background: linear-gradient(135deg, var(--accent-blue), #0044aa);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -83,9 +85,7 @@ aside {
     font-weight: bold;
 }
 
-.brand span {
-    color: var(--accent-blue);
-}
+.brand span { color: var(--accent-blue); }
 
 .badge-pro {
     background: var(--accent-blue-soft);
@@ -97,9 +97,7 @@ aside {
     font-weight: 700;
 }
 
-.sidebar-cta {
-    padding: 16px;
-}
+.sidebar-cta { padding: 16px; }
 
 .btn-new-prod {
     width: 100%;
@@ -111,7 +109,7 @@ aside {
     font-size: 0.85rem;
     font-weight: 600;
     cursor: pointer;
-    transition: background 0.2s;
+    box-shadow: 0 4px 14px var(--accent-blue-glow);
 }
 
 .btn-new-prod:hover { background-color: var(--accent-blue-hover); }
@@ -122,6 +120,7 @@ nav.menu {
     display: flex;
     flex-direction: column;
     gap: 4px;
+    overflow-y: auto;
 }
 
 .menu-section-title {
@@ -156,7 +155,46 @@ nav.menu {
     border-color: rgba(0, 102, 255, 0.35);
 }
 
-/* MAIN AREA */
+.sidebar-footer {
+    padding: 12px 16px;
+    border-top: 1px solid var(--border-color);
+}
+
+.creator-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 10px 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.creator-avatar-mini {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #0066ff, #60a5fa);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.8rem;
+    color: #fff;
+}
+
+.creator-meta strong {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--text-main);
+}
+
+.creator-meta span {
+    font-size: 0.7rem;
+    color: #60a5fa;
+    font-weight: 600;
+}
+
 main {
     margin-left: 250px;
     flex: 1;
@@ -183,6 +221,32 @@ header.top-bar {
     font-size: 0.86rem;
 }
 
+.top-bar-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    padding: 7px 14px;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--text-main);
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--warning);
+}
+
 .scenes-strip {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -198,12 +262,54 @@ header.top-bar {
     display: flex;
     align-items: center;
     gap: 12px;
+    position: relative;
+    overflow: hidden;
+}
+
+.scene-preview-card::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--accent-blue);
+}
+
+.scene-badge-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: var(--accent-blue-soft);
+    border: 1px solid rgba(0, 102, 255, 0.3);
+    color: #60a5fa;
+    font-weight: 700;
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.scene-info strong {
+    display: block;
+    font-size: 0.84rem;
+}
+
+.scene-info span {
+    font-size: 0.75rem;
+    color: var(--text-muted);
 }
 
 .grid-2 {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
     gap: 22px;
+}
+
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+    gap: 18px;
 }
 
 .card {
@@ -218,9 +324,22 @@ header.top-bar {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 10px;
     margin-bottom: 18px;
     padding-bottom: 12px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    flex-wrap: wrap;
+}
+
+.card-title {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.header-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
 }
 
 .form-group {
@@ -243,8 +362,19 @@ input, select, textarea {
     color: var(--text-main);
     padding: 12px 14px;
     border-radius: var(--radius-sm);
-    font-size: 16px;
+    font-size: 15px;
     outline: none;
+    transition: border-color 0.2s;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: var(--accent-blue);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 110px;
+    line-height: 1.5;
 }
 
 .btn {
@@ -254,26 +384,64 @@ input, select, textarea {
     gap: 8px;
     background-color: var(--accent-blue);
     color: #fff;
-    border: none;
-    padding: 12px 18px;
+    border: 1px solid transparent;
+    padding: 11px 16px;
     border-radius: var(--radius-sm);
     font-size: 0.88rem;
     font-weight: 600;
     cursor: pointer;
-    width: 100%;
-    transition: background 0.2s;
+    text-decoration: none;
+    transition: all 0.2s;
 }
 
 .btn:hover { background-color: var(--accent-blue-hover); }
 
 .btn-secondary {
     background-color: var(--bg-card-hover);
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--border-highlight);
+    color: var(--text-main);
 }
 
-/* SECTIONS */
+.btn-secondary:hover { background-color: #202534; }
+
+.btn-flow {
+    background: linear-gradient(135deg, #1e293b, #0f172a);
+    border: 1px solid var(--border-highlight);
+    color: #e2e8f0;
+}
+
+.btn-flow:hover { border-color: var(--accent-blue); }
+
+.btn-danger {
+    background-color: rgba(239, 68, 68, 0.15);
+    border: 1px solid rgba(239, 68, 68, 0.35);
+    color: #f87171;
+}
+
+.btn-danger:hover { background-color: var(--danger); color: #fff; }
+
+.btn-full { width: 100%; }
+
+.btn-sm {
+    padding: 6px 12px;
+    font-size: 0.78rem;
+    border-radius: 6px;
+}
+
+.btn-group-stack {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 8px;
+}
+
 .tab-section { display: none; }
-.tab-section.active { display: block; }
+.tab-section.active { display: block; animation: fadeIn 0.18s ease-out; }
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 
 .output-box {
     background-color: var(--bg-input);
@@ -285,6 +453,88 @@ input, select, textarea {
     color: #e2e8f0;
     white-space: pre-wrap;
     min-height: 250px;
+    line-height: 1.6;
+}
+
+.project-item {
+    background: var(--bg-panel);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.project-header-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.project-title {
+    font-size: 0.92rem;
+    font-weight: 600;
+}
+
+.project-tag {
+    font-size: 0.68rem;
+    background: var(--accent-blue-soft);
+    color: #60a5fa;
+    border: 1px solid rgba(0, 102, 255, 0.28);
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+.project-content {
+    font-size: 0.8rem;
+    color: #cbd5e1;
+    white-space: pre-wrap;
+    max-height: 140px;
+    overflow-y: auto;
+    background: var(--bg-input);
+    padding: 10px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-color);
+}
+
+.project-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    padding-top: 8px;
+    border-top: 1px solid var(--border-color);
+}
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.78);
+    backdrop-filter: blur(4px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    padding: 18px;
+}
+
+.modal-overlay.active { display: flex; }
+
+.modal-box {
+    background: var(--bg-card);
+    border: 1px solid var(--border-highlight);
+    border-radius: var(--radius-lg);
+    width: 100%;
+    max-width: 600px;
+    padding: 22px;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 18px;
 }
 
 .toast-msg {
@@ -308,8 +558,9 @@ input, select, textarea {
     body { display: block; }
     aside { position: relative; width: 100%; height: auto; }
     main { margin-left: 0; padding: 16px; }
-    .grid-2, .scenes-strip { grid-template-columns: 1fr; }
+    .grid-2, .grid-3, .scenes-strip, .btn-group-stack { grid-template-columns: 1fr; }
     nav.menu { flex-direction: row; overflow-x: auto; }
+    .sidebar-footer, .sidebar-cta { display: none; }
 }
 </style>
 </head>
@@ -335,225 +586,728 @@ input, select, textarea {
         <button type="button" class="nav-item" onclick="switchTab('tab-video')">🎥 Vídeo 10s (Veo)</button>
         <button type="button" class="nav-item" onclick="switchTab('tab-script')">📝 Roteirista IA</button>
         <button type="button" class="nav-item" onclick="switchTab('tab-avatars')">👤 Influenciadoras</button>
+        <div class="menu-section-title">Gerenciamento</div>
         <button type="button" class="nav-item" onclick="switchTab('tab-library')">📚 Biblioteca</button>
         <button type="button" class="nav-item" onclick="switchTab('tab-settings')">⚙️ Configurações</button>
     </nav>
+
+    <div class="sidebar-footer">
+        <div class="creator-card">
+            <div class="creator-avatar-mini">T</div>
+            <div class="creator-meta">
+                <strong>Creator Pro</strong>
+                <span>Tiana • Seed Ativa</span>
+            </div>
+        </div>
+    </div>
 </aside>
 
 <main>
     <header class="top-bar">
         <div class="page-title">
             <h1 id="header-title">Gerador UGC & Cena</h1>
-            <p id="header-desc">Crie prompts otimizados em storyboard de 3 cenas.</p>
+            <p id="header-desc">Crie prompts otimizados em storyboard de 3 cenas para o Google Flow.</p>
         </div>
-        <span class="badge-pro">Sistema Local Ativo</span>
+        <div class="top-bar-right">
+            <div class="status-pill">
+                <span class="status-dot" id="db-dot"></span>
+                <span id="db-status">Armazenamento Local Ativo</span>
+            </div>
+        </div>
     </header>
 
-    <!-- ABA 1: UGC -->
+    <!-- ABA 1: CENA UGC -->
     <section id="tab-ugc" class="tab-section active">
         <div class="scenes-strip">
-            <div class="scene-preview-card"><strong>01</strong><span>POV / Gancho (0-3s)</span></div>
-            <div class="scene-preview-card"><strong>02</strong><span>Apresentação (3-7s)</span></div>
-            <div class="scene-preview-card"><strong>03</strong><span>CTA (7-10s)</span></div>
+            <div class="scene-preview-card">
+                <div class="scene-badge-num">01</div>
+                <div class="scene-info"><strong>Cena 1 • 0 a 3s</strong><span>POV / Gancho mãos e produto</span></div>
+            </div>
+            <div class="scene-preview-card">
+                <div class="scene-badge-num">02</div>
+                <div class="scene-info"><strong>Cena 2 • 3 a 7s</strong><span>Apresentação e prova de uso</span></div>
+            </div>
+            <div class="scene-preview-card">
+                <div class="scene-badge-num">03</div>
+                <div class="scene-info"><strong>Cena 3 • 7 a 10s</strong><span>Fechamento sorriso e CTA</span></div>
+            </div>
         </div>
 
         <div class="grid-2">
             <div class="card">
-                <div class="card-header"><h3>Parâmetros da Cena</h3></div>
+                <div class="card-header"><span class="card-title">Parâmetros da Produção UGC</span></div>
                 <div class="form-group">
                     <label>Produto / Nicho</label>
-                    <input type="text" id="ugc-product" placeholder="Ex: Conjunto Fitness...">
+                    <input type="text" id="ugc-product" placeholder="Ex: Conjunto Fitness sem costura...">
                 </div>
                 <div class="form-group">
-                    <label>Influenciadora</label>
-                    <input type="text" id="ugc-avatar" value="Tiana (Principal)">
+                    <label>Influenciadora (Avatar)</label>
+                    <select id="ugc-avatar"></select>
                 </div>
                 <div class="form-group">
-                    <label>Cenário / Ambiente</label>
-                    <input type="text" id="ugc-env" placeholder="Ex: Academia moderna...">
+                    <label>Ambiente / Cenário</label>
+                    <input type="text" id="ugc-env" placeholder="Ex: Quarto moderno bem iluminado...">
                 </div>
-                <button type="button" class="btn" onclick="generateUGC()">⚡ Gerar Prompts (3 Cenas)</button>
+                <div class="form-group">
+                    <label>Roupa / Vestuário</label>
+                    <input type="text" id="ugc-outfit" placeholder="Ex: Look esportivo preto...">
+                </div>
+                <div class="form-group">
+                    <label>Ação Principal</label>
+                    <input type="text" id="ugc-action" placeholder="Ex: Mostrando o caimento e testando a elasticidade...">
+                </div>
+
+                <div class="btn-group-stack">
+                    <button type="button" class="btn btn-full" onclick="generateUGCPrompt()">⚡ Gerar Prompts (3 Cenas)</button>
+                    <button type="button" class="btn btn-flow btn-full" onclick="openGoogleFlow('ugc')">🚀 Copiar & Abrir Flow</button>
+                </div>
             </div>
 
             <div class="card">
                 <div class="card-header">
-                    <h3>Storyboard Gerado</h3>
-                    <button type="button" class="btn btn-secondary" style="width:auto; padding:6px 12px;" onclick="copyOutput('ugc-output')">Copiar</button>
+                    <span class="card-title">Storyboard & Prompts</span>
+                    <div class="header-actions">
+                        <button type="button" class="btn btn-secondary btn-sm" onclick="copyText('ugc-output')">Copiar</button>
+                        <button type="button" class="btn btn-sm" onclick="saveProject('UGC 3 Cenas', 'ugc-output')">Salvar na Biblioteca</button>
+                    </div>
                 </div>
-                <div id="ugc-output" class="output-box">Preencha os campos ao lado e clique em gerar...</div>
+                <div id="ugc-output" class="output-box">Preencha os parâmetros e clique em "Gerar Prompts"...</div>
             </div>
         </div>
     </section>
 
-    <!-- ABA 2: VÍDEO 10S -->
+    <!-- ABA 2: VÍDEO 10S (VEO) -->
     <section id="tab-video" class="tab-section">
         <div class="grid-2">
             <div class="card">
-                <div class="card-header"><h3>Produção de Vídeo (Veo)</h3></div>
+                <div class="card-header"><span class="card-title">Parâmetros do Vídeo (Veo)</span></div>
                 <div class="form-group">
-                    <label>Ação Principal</label>
-                    <input type="text" id="vid-action" placeholder="Ex: Tiana sorrindo e mostrando o produto...">
+                    <label>Produto / Oferta</label>
+                    <input type="text" id="vid-product" placeholder="Ex: Garrafa Térmica Inteligente...">
                 </div>
-                <button type="button" class="btn" onclick="generateVideo()">🎥 Gerar Prompt Veo (10s)</button>
+                <div class="form-group">
+                    <label>Bloco da Cena (10s)</label>
+                    <select id="vid-block-num">
+                        <option value="1">Bloco 1 (0-10s): Gancho e Abertura</option>
+                        <option value="2">Bloco 2 (10-20s): Demonstração Prática</option>
+                        <option value="3">Bloco 3 (20-30s): Chamada para Ação (CTA)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Ação e Fala Sincronizada (Português)</label>
+                    <textarea id="vid-action" placeholder="Descreva os movimentos da influenciadora e a fala em português..."></textarea>
+                </div>
+
+                <div class="btn-group-stack">
+                    <button type="button" class="btn btn-full" onclick="generateVideoBlockPrompt()">🎬 Gerar Prompt Veo (10s)</button>
+                    <button type="button" class="btn btn-flow btn-full" onclick="openGoogleFlow('video')">🚀 Copiar & Abrir Flow</button>
+                </div>
             </div>
+
             <div class="card">
                 <div class="card-header">
-                    <h3>Prompt de Vídeo</h3>
-                    <button type="button" class="btn btn-secondary" style="width:auto; padding:6px 12px;" onclick="copyOutput('vid-output')">Copiar</button>
+                    <span class="card-title">Prompt Veo Gerado</span>
+                    <div class="header-actions">
+                        <button type="button" class="btn btn-secondary btn-sm" onclick="copyText('vid-output')">Copiar</button>
+                        <button type="button" class="btn btn-sm" onclick="saveProject('Vídeo 10s (Veo)', 'vid-output')">Salvar na Biblioteca</button>
+                    </div>
                 </div>
-                <div id="vid-output" class="output-box">O prompt para o Veo aparecerá aqui...</div>
+                <div id="vid-output" class="output-box">O prompt técnico para geração de vídeo de 10s aparecerá aqui...</div>
             </div>
         </div>
     </section>
 
-    <!-- ABA 3: ROTEIRISTA -->
+    <!-- ABA 3: ROTEIRISTA IA -->
     <section id="tab-script" class="tab-section">
         <div class="grid-2">
             <div class="card">
-                <div class="card-header"><h3>Roteirista IA</h3></div>
+                <div class="card-header"><span class="card-title">Estrutura de Copywriting</span></div>
                 <div class="form-group">
-                    <label>Nome do Produto</label>
-                    <input type="text" id="script-product" placeholder="Ex: Fone Bluetooth">
+                    <label>Nome do Produto / Oferta</label>
+                    <input type="text" id="script-product" placeholder="Ex: Sérum Facial Clareador...">
                 </div>
                 <div class="form-group">
-                    <label>Principal Dor / Desejo</label>
-                    <input type="text" id="script-pain" placeholder="Ex: Bateria acaba rápido">
+                    <label>Principal Dor / Desejo do Público</label>
+                    <input type="text" id="script-pain" placeholder="Ex: Manchas na pele e oleosidade excessiva...">
                 </div>
-                <button type="button" class="btn" onclick="generateScript()">📝 Gerar Roteiro</button>
+                <div class="form-group">
+                    <label>Framework de Roteiro</label>
+                    <select id="script-framework">
+                        <option value="PAS">PAS (Problema → Agitação → Solução)</option>
+                        <option value="CONTRARIAN">Quebra de Padrão / Polêmico</option>
+                        <option value="STORY">Storytelling / Experiência Real</option>
+                    </select>
+                </div>
+
+                <div class="btn-group-stack">
+                    <button type="button" class="btn btn-full" onclick="generateScript()">📝 Gerar Roteiro Completo</button>
+                    <button type="button" class="btn btn-flow btn-full" onclick="openGoogleFlow('script')">🚀 Copiar & Abrir Flow</button>
+                </div>
             </div>
+
             <div class="card">
                 <div class="card-header">
-                    <h3>Roteiro Pronto</h3>
-                    <button type="button" class="btn btn-secondary" style="width:auto; padding:6px 12px;" onclick="copyOutput('script-output')">Copiar</button>
+                    <span class="card-title">Roteiro Estruturado</span>
+                    <div class="header-actions">
+                        <button type="button" class="btn btn-secondary btn-sm" onclick="copyText('script-output')">Copiar</button>
+                        <button type="button" class="btn btn-sm" onclick="saveProject('Roteiro IA', 'script-output')">Salvar na Biblioteca</button>
+                    </div>
                 </div>
-                <div id="script-output" class="output-box">Seu roteiro aparecerá aqui...</div>
+                <div id="script-output" class="output-box">Seu roteiro persuasivo com minutagens aparecerá aqui...</div>
             </div>
         </div>
     </section>
 
     <!-- ABA 4: INFLUENCIADORAS -->
     <section id="tab-avatars" class="tab-section">
-        <div class="card" style="max-width:600px;">
-            <div class="card-header"><h3>Gerenciador de Influenciadoras</h3></div>
+        <div class="card" style="max-width:760px;">
+            <div class="card-header">
+                <span class="card-title">Identidade Visual da Influenciadora</span>
+                <div class="header-actions">
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="copyText('av-traits')">Copiar Seed</button>
+                    <button type="button" class="btn btn-sm" onclick="saveProject('Seed Influenciadora', 'av-traits')">Salvar na Biblioteca</button>
+                </div>
+            </div>
+
             <div class="form-group">
-                <label>Nome da Influenciadora</label>
-                <input type="text" id="avatar-name" value="Tiana">
+                <label>Selecionar Perfil</label>
+                <select id="av-select-mgr" onchange="loadAvatarIntoForm()">
+                    <option value="Tiana">Tiana (Principal)</option>
+                </select>
             </div>
             <div class="form-group">
-                <label>Características (Seed Visual)</label>
-                <textarea id="avatar-traits">Tiana, influenciadora digital brasileira de aproximadamente 24 anos, cabelo preto longo e liso, olhos castanhos claros, pele natural.</textarea>
+                <label>Nome</label>
+                <input type="text" id="av-name" value="Tiana">
             </div>
-            <button type="button" class="btn" onclick="showToast('Influenciadora salva com sucesso!')">💾 Salvar Alterações</button>
+            <div class="form-group">
+                <label>Características Físicas Fixas (Seed Visual Prompt)</label>
+                <textarea id="av-traits">Tiana, influenciadora digital brasileira de aproximadamente 24 anos, morena dourada, traços orientais suaves de japa-brasileira, olhos castanhos claros, cabelo preto longo e liso, pele com textura natural e realista, sem tatuagens. Manter rigorosamente a mesma identidade facial, proporções e características em todas as imagens e vídeos.</textarea>
+            </div>
+
+            <div class="btn-group-stack">
+                <button type="button" class="btn btn-full" onclick="saveAvatarChanges()">💾 Salvar Perfil de Influenciadora</button>
+                <button type="button" class="btn btn-flow btn-full" onclick="openGoogleFlow('avatar')">🚀 Abrir no Google Flow</button>
+            </div>
         </div>
     </section>
 
     <!-- ABA 5: BIBLIOTECA -->
     <section id="tab-library" class="tab-section">
         <div class="card">
-            <div class="card-header"><h3>Biblioteca de Projetos</h3></div>
-            <p style="color:var(--text-muted); font-size:0.9rem;">Nenhum projeto salvo no momento.</p>
+            <div class="card-header">
+                <span class="card-title">Biblioteca de Prompts & Projetos Salvos</span>
+                <div class="header-actions">
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="renderProjects()">🔄 Atualizar</button>
+                    <button type="button" class="btn btn-danger btn-sm" onclick="clearProjects()">Limpar Tudo</button>
+                </div>
+            </div>
+            <div id="projects-grid" class="grid-3"></div>
         </div>
     </section>
 
     <!-- ABA 6: CONFIGURAÇÕES -->
     <section id="tab-settings" class="tab-section">
-        <div class="card" style="max-width:600px;">
-            <div class="card-header"><h3>Configurações</h3></div>
-            <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom: 20px;">Gerencie as conexões do seu Estúdio.</p>
+        <div class="card" style="max-width:680px;">
+            <div class="card-header"><span class="card-title">Link do Google Flow</span></div>
             <div class="form-group">
-                <label>URL do Google Flow</label>
-                <input type="text" placeholder="https://flow.google.com...">
+                <label>URL do seu projeto no Flow</label>
+                <input type="url" id="flow-url" placeholder="https://flow.google.com/project/...">
             </div>
-            <button type="button" class="btn" onclick="showToast('Configurações salvas!')">Salvar Configurações</button>
+            <div class="header-actions" style="margin-bottom: 24px;">
+                <button type="button" class="btn" onclick="saveFlowConfig()">Salvar Link do Flow</button>
+                <a id="flow-direct-link" class="btn btn-secondary" href="https://flow.google.com" target="_blank" rel="noopener noreferrer">🌐 Acessar Flow</a>
+            </div>
+
+            <hr style="border:0; border-top:1px solid var(--border-color); margin: 24px 0;">
+
+            <div class="card-header"><span class="card-title">Conexão Supabase</span></div>
+            <div class="form-group">
+                <label>Supabase Project URL</label>
+                <input type="url" id="sb-url" placeholder="https://seu-projeto.supabase.co">
+            </div>
+            <div class="form-group">
+                <label>Supabase Anon Key</label>
+                <input type="password" id="sb-key" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...">
+            </div>
+            <div class="header-actions">
+                <button type="button" class="btn" onclick="connectSupabase()">Conectar & Sincronizar</button>
+                <button type="button" class="btn btn-secondary" onclick="disconnectSupabase()">Remover Supabase</button>
+            </div>
         </div>
     </section>
 </main>
 
-<div id="toast" class="toast-msg">Ação realizada!</div>
+<!-- MODAL EDIÇÃO -->
+<div id="edit-modal" class="modal-overlay">
+    <div class="modal-box">
+        <div class="card-header"><span class="card-title">Editar Projeto</span></div>
+        <input type="hidden" id="edit-project-id">
+        <div class="form-group">
+            <label>Título do Projeto</label>
+            <input type="text" id="edit-project-title">
+        </div>
+        <div class="form-group">
+            <label>Conteúdo</label>
+            <textarea id="edit-project-content" style="min-height:200px; font-family:monospace;"></textarea>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" onclick="closeEditModal()">Cancelar</button>
+            <button type="button" class="btn" onclick="saveEditedProject()">Salvar Alterações</button>
+        </div>
+    </div>
+</div>
+
+<div id="toast" class="toast-msg"></div>
 
 <script>
+'use strict';
+
+const STORAGE_KEY = 'estudio_ia_projects';
+const SUPABASE_CONFIG_KEY = 'estudio_ia_supabase_config';
+const FLOW_CONFIG_KEY = 'estudio_ia_flow_config';
+const CUSTOM_AVATARS_KEY = 'estudio_ia_custom_avatars';
+
+let supabaseClient = null;
+let toastTimeout = null;
+
+const DEFAULT_AVATAR = {
+    name: 'Tiana',
+    traits: 'Tiana, influenciadora digital brasileira de aproximadamente 24 anos, morena dourada, traços orientais suaves de japa-brasileira, olhos castanhos claros, cabelo preto longo e liso, pele com textura natural e realista, sem tatuagens. Manter rigorosamente a mesma identidade facial, proporções e características em todas as imagens e vídeos.'
+};
+
+function $(id) { return document.getElementById(id); }
+
 function showToast(msg) {
-    const t = document.getElementById('toast');
+    const t = $('toast');
     if (!t) return;
     t.textContent = msg;
     t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 2500);
+    if (toastTimeout) clearTimeout(toastTimeout);
+    toastTimeout = setTimeout(() => t.classList.remove('show'), 2600);
+}
+
+function copyRawString(text, successMsg = 'Copiado para a área de transferência!') {
+    if (!text || !text.trim()) {
+        showToast('Nada para copiar.');
+        return;
+    }
+    navigator.clipboard.writeText(text).then(() => {
+        showToast(successMsg);
+    }).catch(() => {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        showToast(successMsg);
+    });
+}
+
+function copyText(elementId) {
+    const el = $(elementId);
+    if (!el) return;
+    const txt = el.value !== undefined ? el.value : el.innerText;
+    copyRawString(txt);
 }
 
 function switchTab(tabId) {
-    // Esconde todas as seções
-    const sections = document.querySelectorAll('.tab-section');
-    sections.forEach(s => s.classList.remove('active'));
-    
-    // Remove classe ativa de todos os botões do menu
-    const navButtons = document.querySelectorAll('.nav-item');
-    navButtons.forEach(n => n.classList.remove('active'));
-    
-    // Mostra a seção alvo
-    const targetSection = document.getElementById(tabId);
-    if (targetSection) {
-        targetSection.classList.add('active');
-    }
-    
-    // Marca o botão clicado como ativo
-    // Encontra o botão que chama switchTab com o tabId correspondente
-    navButtons.forEach(btn => {
-        if (btn.getAttribute('onclick').includes(tabId)) {
-            btn.classList.add('active');
-        }
+    document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+
+    const target = $(tabId);
+    if (target) target.classList.add('active');
+
+    document.querySelectorAll('.nav-item').forEach(btn => {
+        const attr = btn.getAttribute('onclick') || '';
+        if (attr.includes(tabId)) btn.classList.add('active');
     });
 
     const headers = {
-        'tab-ugc': ['Gerador UGC & Cena', 'Crie prompts otimizados em storyboard de 3 cenas.'],
-        'tab-video': ['Produção de Vídeo (Veo)', 'Gere prompts otimizados para vídeo de 10 segundos.'],
-        'tab-script': ['Roteirista IA', 'Crie roteiros persuasivos com ganchos virais.'],
-        'tab-avatars': ['Influenciadoras', 'Gerencie a identidade visual das influenciadoras.'],
-        'tab-library': ['Biblioteca de Projetos', 'Acesse e gerencie seus projetos salvos.'],
-        'tab-settings': ['Configurações', 'Configure o acesso ao Google Flow e APIs.']
+        'tab-ugc': ['Gerador UGC & Cena', 'Crie prompts otimizados em storyboard de 3 cenas para o Google Flow.'],
+        'tab-video': ['Produção de Vídeo (Veo)', 'Gere prompts técnicos em blocos de até 10 segundos.'],
+        'tab-script': ['Roteirista IA', 'Crie roteiros persuasivos com ganchos virais em português.'],
+        'tab-avatars': ['Influenciadoras', 'Gerencie a identidade visual e o seed facial fixo.'],
+        'tab-library': ['Biblioteca de Projetos', 'Acesse, copie, edite e gerencie seus prompts salvos.'],
+        'tab-settings': ['Configurações', 'Gerencie a URL do Google Flow e sincronização Supabase.']
     };
 
     if (headers[tabId]) {
-        document.getElementById('header-title').textContent = headers[tabId][0];
-        document.getElementById('header-desc').textContent = headers[tabId][1];
+        $('header-title').textContent = headers[tabId][0];
+        $('header-desc').textContent = headers[tabId][1];
     }
+
+    if (tabId === 'tab-library') renderProjects();
 }
 
-function generateUGC() {
-    const prod = document.getElementById('ugc-product').value || 'Produto Exemplo';
-    const env = document.getElementById('ugc-env').value || 'Estúdio moderno';
-    
-    const text = `ESTÚDIO IA PRO — STORYBOARD 3 CENAS\n\nPRODUTO: ${prod}\nCENÁRIO: ${env}\n\nCENA 1 (0-3s - POV):\n"Olha o que acabou de chegar!"\n\nCENA 2 (3-7s - Demonstração):\nMostrando os detalhes e a qualidade.\n\nCENA 3 (7-10s - CTA):\n"Clica no link da bio para conferir!"`;
-    
-    document.getElementById('ugc-output').textContent = text;
-    showToast('Prompts gerados com sucesso!');
+/* FLOW INTEGRATION */
+function getFlowUrl() {
+    return localStorage.getItem(FLOW_CONFIG_KEY) || 'https://flow.google.com';
 }
 
-function generateVideo() {
-    const action = document.getElementById('vid-action').value || 'Ação da influenciadora';
-    const text = `GOOGLE FLOW VEO — VÍDEO 10S\n\nIDENTIDADE: Tiana (Seed Fixa)\nAÇÃO: ${action}\nFORMATO: Vertical 9:16\nQUALIDADE: Vídeo UGC realista de alta definição.`;
-    
-    document.getElementById('vid-output').textContent = text;
-    showToast('Prompt do Veo gerado!');
+function initSavedFlow() {
+    const url = getFlowUrl();
+    if ($('flow-url')) $('flow-url').value = url;
+    if ($('flow-direct-link')) $('flow-direct-link').href = url;
+}
+
+function saveFlowConfig() {
+    const val = $('flow-url').value.trim() || 'https://flow.google.com';
+    localStorage.setItem(FLOW_CONFIG_KEY, val);
+    if ($('flow-direct-link')) $('flow-direct-link').href = val;
+    showToast('Link do Google Flow salvo!');
+}
+
+function openGoogleFlow(section) {
+    let prompt = '';
+    if (section === 'ugc') prompt = $('ugc-output').innerText;
+    else if (section === 'video') prompt = $('vid-output').innerText;
+    else if (section === 'script') prompt = $('script-output').innerText;
+    else if (section === 'avatar') prompt = $('av-traits').value;
+
+    if (prompt && !prompt.includes('Preencha os parâmetros')) {
+        copyRawString(prompt, 'Prompt copiado! Cole-o no Google Flow.');
+    }
+    window.open(getFlowUrl(), '_blank');
+}
+
+/* AVATARES */
+function getCustomAvatars() {
+    try {
+        const raw = localStorage.getItem(CUSTOM_AVATARS_KEY);
+        const parsed = raw ? JSON.parse(raw) : [];
+        if (Array.isArray(parsed) && parsed.length) return parsed;
+    } catch(e){}
+    return [DEFAULT_AVATAR];
+}
+
+function updateAvatarDropdowns() {
+    const avatars = getCustomAvatars();
+    const ugcSel = $('ugc-avatar');
+    const mgrSel = $('av-select-mgr');
+    if (!ugcSel || !mgrSel) return;
+
+    ugcSel.innerHTML = '';
+    mgrSel.innerHTML = '';
+    avatars.forEach(av => {
+        const o1 = document.createElement('option');
+        o1.value = av.name;
+        o1.textContent = av.name;
+        ugcSel.appendChild(o1);
+
+        const o2 = document.createElement('option');
+        o2.value = av.name;
+        o2.textContent = av.name;
+        mgrSel.appendChild(o2);
+    });
+}
+
+function loadAvatarIntoForm() {
+    const selName = $('av-select-mgr').value;
+    const av = getCustomAvatars().find(a => a.name === selName) || DEFAULT_AVATAR;
+    $('av-name').value = av.name;
+    $('av-traits').value = av.traits;
+}
+
+function saveAvatarChanges() {
+    const name = $('av-name').value.trim();
+    const traits = $('av-traits').value.trim();
+    if (!name || !traits) {
+        showToast('Preencha o nome e características.');
+        return;
+    }
+    const avatars = getCustomAvatars().filter(a => a.name !== name);
+    avatars.unshift({ name, traits });
+    localStorage.setItem(CUSTOM_AVATARS_KEY, JSON.stringify(avatars));
+    updateAvatarDropdowns();
+    showToast('Influenciadora salva com sucesso!');
+}
+
+/* GENERATORS */
+function generateUGCPrompt() {
+    const product = $('ugc-product').value.trim() || 'produto em destaque';
+    const env = $('ugc-env').value.trim() || 'ambiente natural e moderno';
+    const outfit = $('ugc-outfit').value.trim() || 'roupa casual confortável';
+    const action = $('ugc-action').value.trim() || 'demonstrando os detalhes naturalmente';
+    const avatar = $('av-traits') ? $('av-traits').value : DEFAULT_AVATAR.traits;
+
+    const text = `ESTÚDIO IA PRO — STORYBOARD UGC (3 CENAS)
+
+PRODUTO: ${product}
+AMBIENTE: ${env}
+ROUPA: ${outfit}
+SEED INFLUENCIADORA: ${avatar}
+
+[CENA 1: 0 a 3s - POV / GANCHO]
+Câmera em primeira pessoa nas mãos segurando o produto ${product}.
+Ação: Apresentação imediata com foco nos detalhes e textura.
+Fala: "Olha o que acabou de chegar! Olha esse acabamento."
+
+[CENA 2: 3 a 7s - APRESENTAÇÃO]
+Plano médio da influenciadora usando ${outfit}.
+Ação: ${action}. Expressão alegre e natural.
+Fala: "Eu comecei a usar e a qualidade me surpreendeu muito pela praticidade."
+
+[CENA 3: 7 a 10s - CTA / CONVERSÃO]
+Close-up aproximando o produto da câmera, influenciadora sorrindo e apontando para baixo.
+Fala: "Se você quer garantir o seu, clica no botão aqui embaixo antes que acabe!"
+
+DIREÇÃO TÉCNICA:
+Formato vertical 9:16 | Iluminação natural ultra realista | Resolução 4K sem distorções faciais.`;
+
+    $('ugc-output').innerText = text;
+    showToast('Storyboard UGC de 3 cenas gerado!');
+}
+
+function generateVideoBlockPrompt() {
+    const product = $('vid-product').value.trim() || 'produto';
+    const block = $('vid-block-num').value;
+    const action = $('vid-action').value.trim() || 'mostrando o produto naturalmente';
+    const avatar = $('av-traits') ? $('av-traits').value : DEFAULT_AVATAR.traits;
+
+    const text = `GOOGLE FLOW VEO — BLOCO ${block} (10 SEGUNDOS)
+
+FORMATO: 9:16 vertical | Duração: 10s exatos
+PERSONAGEM: ${avatar}
+PRODUTO: ${product}
+AÇÃO & FALA: ${action}
+
+DIREÇÃO DE CENA:
+Movimento de câmera estável, sincronização labial perfeita em português brasileiro.
+Manter a identidade facial e estética idênticas durante todo o vídeo.`;
+
+    $('vid-output').innerText = text;
+    showToast('Prompt do bloco de 10s gerado!');
 }
 
 function generateScript() {
-    const prod = document.getElementById('script-product').value || 'Produto';
-    const pain = document.getElementById('script-pain').value || 'sua necessidade';
-    
-    const text = `ROTEIRO UGC — ${prod.toUpperCase()}\n\n[0-3s] GANCHO:\n"Cansado de ${pain}? Olha isso aqui."\n\n[3-20s] CORPO:\n"Eu testei e aprovei. Funciona muito bem no dia a dia."\n\n[20-30s] CTA:\n"Garantia e frete grátis no link abaixo."`;
-    
-    document.getElementById('script-output').textContent = text;
-    showToast('Roteiro gerado!');
+    const prod = $('script-product').value.trim() || 'Produto';
+    const pain = $('script-pain').value.trim() || 'esse problema diário';
+    const fw = $('script-framework').value;
+
+    let text = '';
+    if (fw === 'PAS') {
+        text = `ROTEIRO UGC — ESTRUTURA PAS (${prod})
+
+[00:00 - 00:03] GANCHO (PROBLEMA):
+"Você também não aguenta mais passar por ${pain}? Olha isso."
+
+[00:03 - 00:10] AGITAÇÃO:
+"Eu tentei de tudo e parecia que nada resolvia, só perdia dinheiro e tempo."
+
+[00:10 - 00:22] SOLUÇÃO (${prod}):
+"Até que eu testei ${prod}. A diferença foi imediata, super prático de usar."
+
+[00:22 - 00:30] CTA:
+"Vale cada centavo. Toca no link abaixo e garante o seu com desconto!"`;
+    } else {
+        text = `ROTEIRO UGC — CONTRARIAN (${prod})
+
+[00:00 - 00:03] GANCHO:
+"Pare de tentar resolver ${pain} do jeito tradicional."
+
+[00:03 - 00:12] QUEBRA:
+"Todo mundo te indica fórmulas complexas, mas o que realmente funciona é outra coisa."
+
+[00:12 - 00:22] DEMONSTRAÇÃO (${prod}):
+"Com ${prod} você economiza tempo e tem o resultado perfeito no primeiro uso."
+
+[00:22 - 00:30] CTA:
+"Confere todos os detalhes no link abaixo!"`;
+    }
+
+    $('script-output').innerText = text;
+    showToast('Roteiro completo gerado!');
 }
 
-function copyOutput(id) {
-    const element = document.getElementById(id);
-    if (!element) return;
-    const content = element.textContent;
-    navigator.clipboard.writeText(content).then(() => {
-        showToast('Copiado para a área de transferência!');
+/* BIBLIOTECA & SUPABASE */
+function getStoredProjects() {
+    try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        return raw ? JSON.parse(raw) : [];
+    } catch(e) { return []; }
+}
+
+async function setStoredProjects(projects) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(projects));
+    if (supabaseClient && projects.length) {
+        const rows = projects.map(p => ({
+            id: String(p.id),
+            title: p.title,
+            type: p.type,
+            content: p.content,
+            created_at: p.createdAt || new Date().toISOString()
+        }));
+        await supabaseClient.from('projects').upsert(rows, { onConflict: 'id' });
+    }
+}
+
+async function saveProject(type, sourceId) {
+    const el = $(sourceId);
+    if (!el) return;
+    const content = (el.value !== undefined ? el.value : el.innerText).trim();
+
+    if (!content || content.includes('Preencha os parâmetros')) {
+        showToast('Gere o conteúdo antes de salvar.');
+        return;
+    }
+
+    const projects = getStoredProjects();
+    const newProject = {
+        id: `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+        title: `${type} • ${new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}`,
+        type: type,
+        content: content,
+        date: new Date().toLocaleDateString('pt-BR'),
+        createdAt: new Date().toISOString()
+    };
+
+    projects.unshift(newProject);
+    await setStoredProjects(projects);
+    renderProjects();
+    showToast('Salvo na Biblioteca com sucesso!');
+}
+
+function renderProjects() {
+    const grid = $('projects-grid');
+    if (!grid) return;
+    grid.innerHTML = '';
+    const projects = getStoredProjects();
+
+    if (!projects.length) {
+        grid.innerHTML = '<p style="color:var(--text-muted); font-size:0.85rem; grid-column: 1/-1; text-align:center; padding:24px;">Nenhum projeto salvo na biblioteca ainda.</p>';
+        return;
+    }
+
+    projects.forEach(p => {
+        const card = document.createElement('article');
+        card.className = 'project-item';
+        card.innerHTML = `
+            <div class="project-header-meta">
+                <span class="project-tag">${p.type} • ${p.date}</span>
+            </div>
+            <div class="project-title">${p.title}</div>
+            <div class="project-content">${p.content}</div>
+            <div class="project-actions">
+                <button type="button" class="btn btn-secondary btn-sm" onclick="copyRawString(decodeURIComponent('${encodeURIComponent(p.content)}'))">Copiar</button>
+                <button type="button" class="btn btn-sm" onclick="editProject('${p.id}')">Editar</button>
+                <button type="button" class="btn btn-danger btn-sm" onclick="deleteProject('${p.id}')">Excluir</button>
+            </div>
+        `;
+        grid.appendChild(card);
     });
 }
+
+async function deleteProject(id) {
+    if (!confirm('Deseja excluir este item da biblioteca?')) return;
+    const projects = getStoredProjects().filter(p => String(p.id) !== String(id));
+    await setStoredProjects(projects);
+    if (supabaseClient) {
+        await supabaseClient.from('projects').delete().eq('id', String(id));
+    }
+    renderProjects();
+    showToast('Item excluído.');
+}
+
+async function clearProjects() {
+    if (!confirm('Deseja apagar todos os itens salvos?')) return;
+    localStorage.removeItem(STORAGE_KEY);
+    if (supabaseClient) {
+        await supabaseClient.from('projects').delete().not('id', 'is', null);
+    }
+    renderProjects();
+    showToast('Biblioteca limpa.');
+}
+
+function editProject(id) {
+    const p = getStoredProjects().find(item => String(item.id) === String(id));
+    if (!p) return;
+    $('edit-project-id').value = p.id;
+    $('edit-project-title').value = p.title;
+    $('edit-project-content').value = p.content;
+    $('edit-modal').classList.add('active');
+}
+
+function closeEditModal() {
+    $('edit-modal').classList.remove('active');
+}
+
+async function saveEditedProject() {
+    const id = $('edit-project-id').value;
+    const title = $('edit-project-title').value.trim();
+    const content = $('edit-project-content').value.trim();
+    if (!title || !content) return;
+
+    const projects = getStoredProjects();
+    const idx = projects.findIndex(p => String(p.id) === String(id));
+    if (idx >= 0) {
+        projects[idx].title = title;
+        projects[idx].content = content;
+        await setStoredProjects(projects);
+        closeEditModal();
+        renderProjects();
+        showToast('Projeto atualizado!');
+    }
+}
+
+/* SUPABASE SYNC */
+function setDbStatus(msg, connected = false) {
+    if ($('db-status')) $('db-status').textContent = msg;
+    if ($('db-dot')) {
+        $('db-dot').style.backgroundColor = connected ? 'var(--success)' : 'var(--warning)';
+    }
+}
+
+async function connectSupabase() {
+    const url = $('sb-url').value.trim();
+    const key = $('sb-key').value.trim();
+    if (!url || !key) {
+        showToast('Informe URL e Anon Key do Supabase.');
+        return;
+    }
+    try {
+        const client = window.supabase.createClient(url, key);
+        const { error } = await client.from('projects').select('id').limit(1);
+        if (error) throw error;
+        supabaseClient = client;
+        localStorage.setItem(SUPABASE_CONFIG_KEY, JSON.stringify({ url, key }));
+        setDbStatus('Supabase Conectado', true);
+        showToast('Supabase conectado e sincronizado!');
+    } catch(e) {
+        setDbStatus('Falha na conexão Supabase', false);
+        showToast('Não foi possível conectar ao Supabase.');
+    }
+}
+
+function disconnectSupabase() {
+    supabaseClient = null;
+    localStorage.removeItem(SUPABASE_CONFIG_KEY);
+    $('sb-url').value = '';
+    $('sb-key').value = '';
+    setDbStatus('Armazenamento Local Ativo', false);
+    showToast('Supabase desconectado.');
+}
+
+async function initSupabase() {
+    const raw = localStorage.getItem(SUPABASE_CONFIG_KEY);
+    if (!raw || !window.supabase) return;
+    try {
+        const conf = JSON.parse(raw);
+        $('sb-url').value = conf.url;
+        $('sb-key').value = conf.key;
+        supabaseClient = window.supabase.createClient(conf.url, conf.key);
+        setDbStatus('Supabase Conectado', true);
+    } catch(e){}
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    initSavedFlow();
+    updateAvatarDropdowns();
+    renderProjects();
+    initSupabase();
+});
 </script>
 
 </body>
