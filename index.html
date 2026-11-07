@@ -8,21 +8,26 @@
 
 <style>
 :root {
-    --bg-deep: #050505;
-    --bg-panel: #0d0d10;
-    --bg-card: #121216;
-    --bg-card-hover: #18181f;
-    --bg-input: #09090b;
+    --bg-deep: #050507;
+    --bg-panel: #0b0c10;
+    --bg-card: #11131a;
+    --bg-card-hover: #171a24;
+    --bg-input: #08090d;
     --accent-blue: #0066ff;
     --accent-blue-hover: #0052cc;
-    --accent-blue-glow: rgba(0, 102, 255, 0.22);
-    --text-main: #ffffff;
-    --text-muted: #a1a1aa;
-    --border-color: #232329;
+    --accent-blue-glow: rgba(0, 102, 255, 0.28);
+    --accent-blue-soft: rgba(0, 102, 255, 0.12);
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --border-color: #1e2230;
+    --border-highlight: #2a3042;
     --danger: #ef4444;
     --danger-hover: #dc2626;
     --success: #10b981;
     --warning: #f59e0b;
+    --radius-lg: 14px;
+    --radius-md: 10px;
+    --radius-sm: 8px;
 }
 
 * {
@@ -35,6 +40,7 @@
 
 body {
     background-color: var(--bg-deep);
+    background-image: radial-gradient(circle at 85% 0%, rgba(0, 102, 255, 0.07) 0%, transparent 45%);
     color: var(--text-main);
     display: flex;
     min-height: 100vh;
@@ -42,9 +48,9 @@ body {
     -webkit-text-size-adjust: 100%;
 }
 
-/* SIDEBAR */
+/* SIDEBAR COMPACTA E MODERNA */
 aside {
-    width: 270px;
+    width: 248px;
     background-color: var(--bg-panel);
     border-right: 1px solid var(--border-color);
     display: flex;
@@ -55,14 +61,31 @@ aside {
 }
 
 .brand {
-    padding: 22px 24px;
-    font-size: 1.25rem;
-    font-weight: 800;
-    letter-spacing: -0.03em;
-    border-bottom: 1px solid var(--border-color);
+    padding: 20px 20px 16px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.brand-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.15rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+}
+
+.brand-logo-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--accent-blue), #0044aa);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px var(--accent-blue-glow);
 }
 
 .brand span {
@@ -70,24 +93,54 @@ aside {
 }
 
 .badge-pro {
-    background: var(--accent-blue);
-    color: #fff;
-    font-size: 0.65rem;
+    background: var(--accent-blue-soft);
+    color: #60a5fa;
+    border: 1px solid rgba(0, 102, 255, 0.35);
+    font-size: 0.62rem;
     padding: 3px 7px;
-    border-radius: 4px;
+    border-radius: 6px;
     font-weight: 700;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.06em;
+}
+
+.sidebar-cta {
+    padding: 16px 16px 6px;
+}
+
+.btn-new-prod {
+    width: 100%;
+    background: linear-gradient(135deg, var(--accent-blue), #0052cc);
+    color: #fff;
+    border: none;
+    padding: 11px 14px;
+    border-radius: var(--radius-md);
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 16px var(--accent-blue-glow);
+    transition: all 0.2s ease;
+}
+
+.btn-new-prod:hover {
+    filter: brightness(1.1);
 }
 
 nav.menu {
-    padding: 14px 0;
+    padding: 10px 12px;
     overflow-y: auto;
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 }
 
 .menu-section-title {
-    padding: 14px 24px 6px;
-    font-size: 0.7rem;
+    padding: 14px 10px 6px;
+    font-size: 0.68rem;
     font-weight: 700;
     text-transform: uppercase;
     color: var(--text-muted);
@@ -95,62 +148,162 @@ nav.menu {
 }
 
 .nav-item {
-    padding: 11px 24px;
+    padding: 11px 12px;
     color: var(--text-muted);
     text-decoration: none;
     display: flex;
     align-items: center;
-    gap: 10px;
-    font-size: 0.9rem;
+    gap: 11px;
+    font-size: 0.88rem;
     font-weight: 500;
+    border-radius: var(--radius-md);
     transition: all 0.18s ease;
     cursor: pointer;
-    border-left: 3px solid transparent;
     user-select: none;
     background: transparent;
-    border-top: none;
-    border-right: none;
-    border-bottom: none;
+    border: 1px solid transparent;
     width: 100%;
     text-align: left;
 }
 
-.nav-item:hover,
-.nav-item.active {
-    color: var(--text-main);
-    background-color: var(--bg-card-hover);
-    border-left-color: var(--accent-blue);
+.nav-item svg {
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+    stroke-width: 2;
+    fill: none;
+    flex-shrink: 0;
+    opacity: 0.85;
 }
 
-/* MAIN AREA */
+.nav-item:hover {
+    color: var(--text-main);
+    background-color: var(--bg-card-hover);
+}
+
+.nav-item.active {
+    color: #ffffff;
+    background-color: var(--accent-blue-soft);
+    border-color: rgba(0, 102, 255, 0.35);
+    font-weight: 600;
+}
+
+.nav-item.active svg {
+    stroke: #3b82f6;
+    opacity: 1;
+}
+
+.sidebar-footer {
+    padding: 14px 16px;
+    border-top: 1px solid var(--border-color);
+}
+
+.creator-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 10px 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.creator-avatar-mini {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #0066ff, #60a5fa);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 0.85rem;
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.creator-meta {
+    overflow: hidden;
+}
+
+.creator-meta strong {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--text-main);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.creator-meta span {
+    font-size: 0.7rem;
+    color: #60a5fa;
+    font-weight: 600;
+}
+
+/* ÁREA PRINCIPAL */
 main {
-    margin-left: 270px;
+    margin-left: 248px;
     flex: 1;
-    padding: 32px 40px;
-    max-width: 1600px;
+    padding: 26px 34px 40px;
+    max-width: 1560px;
     width: 100%;
 }
 
+/* CABEÇALHO SUPERIOR */
 header.top-bar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 32px;
-    padding-bottom: 20px;
+    margin-bottom: 24px;
+    padding-bottom: 18px;
     border-bottom: 1px solid var(--border-color);
-    gap: 15px;
+    gap: 16px;
+}
+
+.top-bar-left {
+    display: flex;
+     flex-direction: column;
+    gap: 4px;
+}
+
+.studio-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: #60a5fa;
 }
 
 .page-title h1 {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
     font-weight: 700;
     letter-spacing: -0.02em;
 }
 
 .page-title p {
     color: var(--text-muted);
-    font-size: 0.9rem;
-    margin-top: 4px;
+    font-size: 0.86rem;
+    margin-top: 2px;
+}
+
+.top-bar-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.version-pill {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    padding: 7px 12px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
 }
 
 .status-pill {
@@ -159,10 +312,11 @@ header.top-bar {
     gap: 8px;
     background: var(--bg-card);
     border: 1px solid var(--border-color);
-    padding: 8px 14px;
+    padding: 7px 14px;
     border-radius: 999px;
-    font-size: 0.8rem;
-    color: var(--text-muted);
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--text-main);
     white-space: nowrap;
 }
 
@@ -174,26 +328,83 @@ header.top-bar {
     box-shadow: 0 0 8px var(--success);
 }
 
-/* GRID & CARDS */
+/* FAIXA VISUAL DAS 3 CENAS (ESTILO STUDIO) */
+.scenes-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-bottom: 22px;
+}
+
+.scene-preview-card {
+    background: linear-gradient(180deg, rgba(17, 19, 26, 0.95), rgba(11, 12, 16, 0.95));
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+    overflow: hidden;
+}
+
+.scene-preview-card::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--accent-blue);
+}
+
+.scene-badge-num {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    background: var(--accent-blue-soft);
+    border: 1px solid rgba(0, 102, 255, 0.3);
+    color: #60a5fa;
+    font-weight: 700;
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.scene-info strong {
+    display: block;
+    font-size: 0.84rem;
+    color: var(--text-main);
+}
+
+.scene-info span {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+/* GRID & CARDS PRINCIPAIS */
 .grid-2 {
     display: grid;
-    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-    gap: 24px;
+    grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+    gap: 22px;
 }
 
 .grid-3 {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+    gap: 18px;
 }
 
 .card {
     background-color: var(--bg-card);
     border: 1px solid var(--border-color);
-    border-radius: 12px;
-    padding: 24px;
-    margin-bottom: 24px;
+    border-radius: var(--radius-lg);
+    padding: 22px;
+    margin-bottom: 22px;
     min-width: 0;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
 }
 
 .card-header {
@@ -202,12 +413,25 @@ header.top-bar {
     align-items: center;
     gap: 12px;
     margin-bottom: 18px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     flex-wrap: wrap;
 }
 
 .card-title {
-    font-size: 1.05rem;
+    font-size: 1rem;
     font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.card-title-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent-blue);
+    display: inline-block;
 }
 
 .header-actions {
@@ -216,20 +440,81 @@ header.top-bar {
     flex-wrap: wrap;
 }
 
-/* FORMS */
-.form-group {
+/* GERENCIADOR DE INFLUENCIADORAS (CARD VISUAL) */
+.influencer-hero {
+    background: linear-gradient(135deg, rgba(0, 102, 255, 0.14), rgba(17, 19, 26, 0.95));
+    border: 1px solid rgba(0, 102, 255, 0.3);
+    border-radius: var(--radius-md);
+    padding: 16px;
     margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.influencer-photo {
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #3b82f6, #003380);
+    border: 2px solid var(--accent-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #fff;
+    flex-shrink: 0;
+    box-shadow: 0 0 16px var(--accent-blue-glow);
+}
+
+.influencer-details {
+    flex: 1;
+    min-width: 0;
+}
+
+.influencer-details-top {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.influencer-details strong {
+    font-size: 1rem;
+    color: #fff;
+}
+
+.seed-badge {
+    font-size: 0.68rem;
+    background: rgba(16, 185, 129, 0.15);
+    color: #34d399;
+    border: 1px solid rgba(16, 185, 129, 0.35);
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-weight: 600;
+}
+
+.influencer-details p {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-top: 4px;
+}
+
+/* FORMULÁRIOS */
+.form-group {
+    margin-bottom: 16px;
     min-width: 0;
 }
 
 label {
     display: block;
-    font-size: 0.82rem;
+    font-size: 0.76rem;
     font-weight: 600;
     color: var(--text-muted);
-    margin-bottom: 8px;
+    margin-bottom: 7px;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.05em;
 }
 
 input,
@@ -240,7 +525,7 @@ textarea {
     border: 1px solid var(--border-color);
     color: var(--text-main);
     padding: 12px 14px;
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
     font-size: 16px;
     outline: none;
     transition: border-color 0.2s, box-shadow 0.2s;
@@ -249,7 +534,7 @@ textarea {
 }
 
 select {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23a1a1aa' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%2394a3b8' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 14px center;
     padding-right: 36px;
@@ -268,7 +553,7 @@ textarea {
     line-height: 1.5;
 }
 
-/* BUTTONS */
+/* BOTÕES */
 .btn {
     display: inline-flex;
     align-items: center;
@@ -276,16 +561,17 @@ textarea {
     gap: 8px;
     background-color: var(--accent-blue);
     color: #fff;
-    border: none;
-    padding: 12px 20px;
-    border-radius: 8px;
-    font-size: 0.9rem;
+    border: 1px solid transparent;
+    padding: 12px 18px;
+    border-radius: var(--radius-sm);
+    font-size: 0.88rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s;
     touch-action: manipulation;
     user-select: none;
     text-decoration: none;
+    box-shadow: 0 4px 14px rgba(0, 102, 255, 0.22);
 }
 
 .btn:hover {
@@ -303,38 +589,49 @@ textarea {
 
 .btn-secondary {
     background-color: var(--bg-card-hover);
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--border-highlight);
     color: var(--text-main);
+    box-shadow: none;
 }
 
 .btn-secondary:hover {
-    background-color: #22222b;
+    background-color: #202534;
 }
 
 .btn-success {
-    background-color: var(--success);
-    color: #fff;
+    background-color: var(--bg-card-hover);
+    border: 1px solid rgba(0, 102, 255, 0.45);
+    color: #60a5fa;
+    box-shadow: none;
 }
 
 .btn-success:hover {
-    background-color: #059669;
-}
-
-.btn-flow {
-    background-color: #7c3aed;
+    background-color: var(--accent-blue-soft);
     color: #fff;
 }
 
+.btn-flow {
+    background: linear-gradient(135deg, #1e293b, #0f172a);
+    border: 1px solid var(--border-highlight);
+    color: #e2e8f0;
+    box-shadow: none;
+}
+
 .btn-flow:hover {
-    background-color: #6d28d9;
+    border-color: var(--accent-blue);
+    color: #fff;
 }
 
 .btn-danger {
-    background-color: var(--danger);
+    background-color: rgba(239, 68, 68, 0.15);
+    border: 1px solid rgba(239, 68, 68, 0.35);
+    color: #f87171;
+    box-shadow: none;
 }
 
 .btn-danger:hover {
-    background-color: var(--danger-hover);
+    background-color: var(--danger);
+    color: #fff;
 }
 
 .btn-full {
@@ -354,40 +651,51 @@ textarea {
     margin-top: 8px;
 }
 
-/* SECTIONS */
+/* ABAS */
 .tab-section {
     display: none;
 }
 
 .tab-section.active {
     display: block;
+    animation: fadeIn 0.18s ease-out;
 }
 
-/* OUTPUT & PREVIEWS */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* SAÍDA DE PROMPTS & STORYBOARD */
 .output-box {
     background-color: var(--bg-input);
     border: 1px solid var(--border-color);
-    border-radius: 8px;
+    border-radius: var(--radius-md);
     padding: 16px;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.85rem;
-    color: #d4d4d8;
+    font-size: 0.84rem;
+    color: #e2e8f0;
     white-space: pre-wrap;
     overflow-wrap: anywhere;
-    min-height: 220px;
-    line-height: 1.6;
+    min-height: 250px;
+    line-height: 1.65;
 }
 
-/* LIBRARY PROJECTS */
+/* BIBLIOTECA DE PROJETOS */
 .project-item {
     background: var(--bg-panel);
     border: 1px solid var(--border-color);
-    border-radius: 10px;
+    border-radius: var(--radius-md);
     padding: 16px;
     display: flex;
     flex-direction: column;
     gap: 10px;
     min-width: 0;
+    transition: border-color 0.2s;
+}
+
+.project-item:hover {
+    border-color: var(--border-highlight);
 }
 
 .project-header-meta {
@@ -398,7 +706,7 @@ textarea {
 }
 
 .project-title {
-    font-size: 0.95rem;
+    font-size: 0.94rem;
     font-weight: 600;
     color: var(--text-main);
     word-break: break-word;
@@ -406,24 +714,25 @@ textarea {
 
 .project-tag {
     align-self: flex-start;
-    font-size: 0.7rem;
-    background: rgba(0, 102, 255, 0.15);
+    font-size: 0.68rem;
+    background: var(--accent-blue-soft);
     color: #60a5fa;
+    border: 1px solid rgba(0, 102, 255, 0.28);
     padding: 3px 8px;
-    border-radius: 4px;
+    border-radius: 6px;
     font-weight: 600;
 }
 
 .project-content {
-    font-size: 0.82rem;
-    color: #d4d4d8;
+    font-size: 0.8rem;
+    color: #cbd5e1;
     white-space: pre-wrap;
     overflow-wrap: anywhere;
     max-height: 140px;
     overflow-y: auto;
     background: var(--bg-input);
     padding: 10px;
-    border-radius: 6px;
+    border-radius: var(--radius-sm);
     border: 1px solid var(--border-color);
     flex: 1;
 }
@@ -433,7 +742,7 @@ textarea {
     justify-content: flex-end;
     flex-wrap: wrap;
     gap: 8px;
-    padding-top: 6px;
+    padding-top: 8px;
     border-top: 1px solid var(--border-color);
 }
 
@@ -441,14 +750,14 @@ textarea {
 .modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.75);
-    backdrop-filter: blur(3px);
-    -webkit-backdrop-filter: blur(3px);
+    background: rgba(0, 0, 0, 0.78);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
     display: none;
     align-items: center;
     justify-content: center;
     z-index: 200;
-    padding: 20px;
+    padding: 18px;
 }
 
 .modal-overlay.active {
@@ -457,12 +766,12 @@ textarea {
 
 .modal-box {
     background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
+    border: 1px solid var(--border-highlight);
+    border-radius: var(--radius-lg);
     width: 100%;
     max-width: 600px;
-    padding: 24px;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+    padding: 22px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
     max-height: 90vh;
     overflow-y: auto;
 }
@@ -478,14 +787,14 @@ textarea {
 .empty-message {
     color: var(--text-muted);
     font-size: 0.85rem;
-    padding: 20px;
+    padding: 28px 20px;
     text-align: center;
-    border: 1px dashed var(--border-color);
-    border-radius: 8px;
+    border: 1px dashed var(--border-highlight);
+    border-radius: var(--radius-md);
     grid-column: 1 / -1;
 }
 
-/* TOAST NOTIFICATION */
+/* NOTIFICAÇÃO TOAST */
 .toast-msg {
     position: fixed;
     bottom: 24px;
@@ -493,9 +802,9 @@ textarea {
     background: var(--bg-card);
     color: var(--text-main);
     border: 1px solid var(--accent-blue);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.75);
     padding: 12px 18px;
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
     font-size: 0.85rem;
     font-weight: 500;
     z-index: 300;
@@ -510,100 +819,269 @@ textarea {
     transform: translateY(0);
 }
 
-/* RESPONSIVE */
-@media (max-width: 1024px) {
+/* RESPONSIVIDADE (TABLET & CELULAR / iPHONE) */
+@media (max-width: 1080px) {
     .grid-2 { grid-template-columns: 1fr; }
+    .scenes-strip { grid-template-columns: 1fr; gap: 10px; }
     aside { width: 220px; }
-    main { margin-left: 220px; padding: 24px; }
+    main { margin-left: 220px; padding: 22px; }
 }
 
-@media (max-width: 700px) {
-    body { display: block; }
-    aside { position: relative; width: 100%; height: auto; min-height: 0; }
-    .brand { padding: 16px 18px; }
-    nav.menu { display: flex; flex-wrap: wrap; padding: 8px; overflow: visible; }
-    .menu-section-title { display: none; }
-    .nav-item { width: auto; flex: 1 1 45%; justify-content: center; padding: 11px 7px; font-size: 0.78rem; border-left: 0; border-bottom: 2px solid transparent; text-align: center; }
-    .nav-item:hover, .nav-item.active { border-left-color: transparent; border-bottom-color: var(--accent-blue); }
-    main { margin-left: 0; padding: 20px 14px; width: 100%; }
-    header.top-bar { align-items: flex-start; flex-direction: column; gap: 14px; margin-bottom: 22px; }
-    .page-title h1 { font-size: 1.3rem; }
-    .page-title p { font-size: 0.82rem; line-height: 1.5; }
-    .grid-2, .grid-3, .btn-group-stack { grid-template-columns: 1fr; gap: 12px; }
-    .card { padding: 17px; margin-bottom: 15px; }
-    .toast-msg { left: 14px; right: 14px; bottom: 16px; text-align: center; }
+@media (max-width: 760px) {
+    body {
+        display: block;
+    }
+
+    aside {
+        position: sticky;
+        top: 0;
+        width: 100%;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+        background-color: rgba(11, 12, 16, 0.96);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
+
+    .brand {
+        padding: 12px 16px;
+    }
+
+    .sidebar-cta,
+    .sidebar-footer,
+    .menu-section-title {
+        display: none;
+    }
+
+    nav.menu {
+        flex-direction: row;
+        overflow-x: auto;
+        padding: 8px 12px;
+        gap: 8px;
+        scrollbar-width: none;
+    }
+
+    nav.menu::-webkit-scrollbar {
+        display: none;
+    }
+
+    .nav-item {
+        width: auto;
+        flex: 0 0 auto;
+        padding: 9px 13px;
+        font-size: 0.8rem;
+        white-space: nowrap;
+        border-radius: 999px;
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+    }
+
+    .nav-item.active {
+        background: var(--accent-blue);
+        border-color: var(--accent-blue);
+        color: #fff;
+    }
+
+    .nav-item.active svg {
+        stroke: #fff;
+    }
+
+    main {
+        margin-left: 0;
+        padding: 16px 14px 36px;
+        width: 100%;
+    }
+
+    header.top-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        margin-bottom: 18px;
+        padding-bottom: 14px;
+    }
+
+    .top-bar-right {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .page-title h1 {
+        font-size: 1.25rem;
+    }
+
+    .grid-2,
+    .grid-3,
+    .btn-group-stack {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .card {
+        padding: 16px;
+        margin-bottom: 16px;
+    }
+
+    .toast-msg {
+        left: 14px;
+        right: 14px;
+        bottom: 16px;
+        text-align: center;
+    }
 }
 </style>
 </head>
 
 <body>
 
+<!-- MENU LATERAL COMPACTO -->
 <aside>
     <div class="brand">
-        <div>ESTÚDIO <span>IA</span></div>
-        <span class="badge-pro">PRO</span>
+        <div class="brand-left">
+            <div class="brand-logo-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                </svg>
+            </div>
+            <div>ESTÚDIO <span>IA</span></div>
+        </div>
+        <span class="badge-pro">PRO V3.5</span>
+    </div>
+
+    <div class="sidebar-cta">
+        <button type="button" class="btn-new-prod" onclick="switchTab('tab-ugc', document.querySelector('[data-tab=tab-ugc]'))">
+            + Nova Produção UGC
+        </button>
     </div>
 
     <nav class="menu">
-        <div class="menu-section-title">Produção</div>
+        <div class="menu-section-title">Estúdio de Criação</div>
 
         <button type="button" class="nav-item active" data-tab="tab-ugc" onclick="switchTab('tab-ugc', this)">
-            🎬 Gerador UGC & Cena
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                <line x1="8" y1="21" x2="16" y2="21"></line>
+                <line x1="12" y1="17" x2="12" y2="21"></line>
+            </svg>
+            <span>Cena UGC (3 Cenas)</span>
         </button>
 
         <button type="button" class="nav-item" data-tab="tab-video" onclick="switchTab('tab-video', this)">
-            🎥 Criar Vídeo (Blocos 10s)
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="23 7 16 12 23 17 23 7"></polygon>
+                <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+            </svg>
+            <span>Vídeo 10s (Veo)</span>
         </button>
 
         <button type="button" class="nav-item" data-tab="tab-script" onclick="switchTab('tab-script', this)">
-            📝 Roteirista Viral (Hooks)
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+            </svg>
+            <span>Roteirista IA</span>
         </button>
 
         <button type="button" class="nav-item" data-tab="tab-avatars" onclick="switchTab('tab-avatars', this)">
-            🧑‍🎤 Consistência de Avatar
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            <span>Influenciadoras</span>
         </button>
 
         <div class="menu-section-title">Gerenciamento</div>
 
         <button type="button" class="nav-item" data-tab="tab-library" onclick="switchTab('tab-library', this)">
-            🗂️ Biblioteca de Projetos
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+            </svg>
+            <span>Biblioteca</span>
         </button>
 
         <button type="button" class="nav-item" data-tab="tab-settings" onclick="switchTab('tab-settings', this)">
-            ⚙️ Google Flow & Supabase
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="3"></circle>
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+            </svg>
+            <span>Configurações</span>
         </button>
     </nav>
+
+    <div class="sidebar-footer">
+        <div class="creator-card">
+            <div class="creator-avatar-mini">T</div>
+            <div class="creator-meta">
+                <strong>Creator Pro</strong>
+                <span>Tiana • Seed Ativa</span>
+            </div>
+        </div>
+    </div>
 </aside>
 
+<!-- CONTEÚDO PRINCIPAL -->
 <main>
     <header class="top-bar">
-        <div class="page-title">
-            <h1 id="header-title">Gerador UGC & Cena</h1>
-            <p id="header-desc">Crie prompts otimizados em storyboard de 3 cenas para o Google Flow.</p>
+        <div class="top-bar-left">
+            <div class="studio-breadcrumb">ESTÚDIO IA PRO • AI VIDEO & UGC DASHBOARD</div>
+            <div class="page-title">
+                <h1 id="header-title">Gerador UGC & Cena</h1>
+                <p id="header-desc">Crie prompts otimizados em storyboard de 3 cenas para o Google Flow.</p>
+            </div>
         </div>
 
-        <div class="status-pill">
-            <span class="status-dot" id="db-dot"></span>
-            <span id="db-status">Armazenamento Local Ativo</span>
+        <div class="top-bar-right">
+            <span class="version-pill">V3.5 PRO</span>
+            <div class="status-pill">
+                <span class="status-dot" id="db-dot"></span>
+                <span id="db-status">Armazenamento Local Ativo</span>
+            </div>
         </div>
     </header>
 
-    <!-- ABA 1: UGC & CENA -->
+    <!-- ABA 1: PRODUÇÃO UGC & 3 CENAS -->
     <section id="tab-ugc" class="tab-section active">
+        <!-- Visualização Rápida das 3 Cenas -->
+        <div class="scenes-strip">
+            <div class="scene-preview-card">
+                <div class="scene-badge-num">01</div>
+                <div class="scene-info">
+                    <strong>Cena 1 • 0 a 3s (POV / Gancho)</strong>
+                    <span>Close-up nas mãos e detalhe do produto</span>
+                </div>
+            </div>
+            <div class="scene-preview-card">
+                <div class="scene-badge-num">02</div>
+                <div class="scene-info">
+                    <strong>Cena 2 • 3 a 7s (Apresentação)</strong>
+                    <span>Influenciadora demonstrando na prática</span>
+                </div>
+            </div>
+            <div class="scene-preview-card">
+                <div class="scene-badge-num">03</div>
+                <div class="scene-info">
+                    <strong>Cena 3 • 7 a 10s (Fechamento CTA)</strong>
+                    <span>Sorriso + chamada para o link da oferta</span>
+                </div>
+            </div>
+        </div>
+
         <div class="grid-2">
             <div class="card">
                 <div class="card-header">
-                    <span class="card-title">Parâmetros da Cena UGC (3 Cenas)</span>
+                    <span class="card-title"><span class="card-title-dot"></span> Parâmetros da Cena UGC</span>
                 </div>
 
                 <div class="form-group">
                     <label for="ugc-product">Produto / Nicho</label>
-                    <input type="text" id="ugc-product" placeholder="Ex: Fone de ouvido sem fio, Sérum Facial...">
+                    <input type="text" id="ugc-product" placeholder="Ex: Conjunto Fitness Academia, Fone sem fio, Sérum...">
                 </div>
 
                 <div class="grid-2" style="gap:12px;">
                     <div class="form-group">
-                        <label for="ugc-avatar">Perfil do Criador (Avatar)</label>
+                        <label for="ugc-avatar">Influenciadora (Avatar)</label>
                         <select id="ugc-avatar">
                             <!-- Preenchido via JS -->
                         </select>
@@ -611,14 +1089,14 @@ textarea {
 
                     <div class="form-group">
                         <label for="ugc-env">Ambiente / Cenário</label>
-                        <input type="text" id="ugc-env" placeholder="Ex: Quarto moderno, academia, ou 'Manter original'">
+                        <input type="text" id="ugc-env" placeholder="Ex: Academia moderna, Quarto minimalista...">
                     </div>
                 </div>
 
                 <div class="grid-2" style="gap:12px;">
                     <div class="form-group">
                         <label for="ugc-outfit">Roupa / Vestuário</label>
-                        <input type="text" id="ugc-outfit" placeholder="Ex: Camiseta minimalista branca">
+                        <input type="text" id="ugc-outfit" placeholder="Ex: Conjunto fitness preto, camiseta branca...">
                     </div>
 
                     <div class="form-group">
@@ -633,7 +1111,7 @@ textarea {
 
                 <div class="form-group">
                     <label for="ugc-action">Ação Principal da Influenciadora</label>
-                    <input type="text" id="ugc-action" placeholder="Ex: Colocando o fone no ouvido, testando e sorrindo">
+                    <input type="text" id="ugc-action" placeholder="Ex: Mostrando o caimento no espelho e sorrindo">
                 </div>
 
                 <div class="btn-group-stack">
@@ -647,7 +1125,7 @@ textarea {
 
             <div class="card">
                 <div class="card-header">
-                    <span class="card-title">Storyboard & Prompt de Produção</span>
+                    <span class="card-title"><span class="card-title-dot"></span> Storyboard & Prompt de Produção</span>
                     <div class="header-actions">
                         <button type="button" class="btn btn-secondary btn-sm" onclick="copyText('ugc-output')">Copiar</button>
                         <button type="button" class="btn btn-sm" onclick="saveProject('UGC 3 Cenas', 'ugc-output')">Salvar</button>
@@ -659,21 +1137,21 @@ textarea {
         </div>
     </section>
 
-    <!-- ABA 2: CRIAR VÍDEO (BLOCOS 10S) -->
+    <!-- ABA 2: VÍDEO EM BLOCOS DE 10 SEGUNDOS -->
     <section id="tab-video" class="tab-section">
         <div class="grid-2">
             <div class="card">
                 <div class="card-header">
-                    <span class="card-title">Blocos de Vídeo (Até 10 Segundos)</span>
+                    <span class="card-title"><span class="card-title-dot"></span> Produção de Vídeo (Blocos de 10s)</span>
                 </div>
 
                 <div class="form-group">
                     <label for="vid-product">Produto / Oferta</label>
-                    <input type="text" id="vid-product" placeholder="Ex: Fone sem fio Smart">
+                    <input type="text" id="vid-product" placeholder="Ex: Conjunto Fitness Smart, Fone Bluetooth...">
                 </div>
 
                 <div class="form-group">
-                    <label for="vid-block-num">Bloco da Cena</label>
+                    <label for="vid-block-num">Bloco da Cena (10 Segundos)</label>
                     <select id="vid-block-num">
                         <option value="1">Bloco 1 (0-10s): Gancho e Abertura</option>
                         <option value="2">Bloco 2 (10-20s): Demonstração Prática</option>
@@ -694,7 +1172,7 @@ textarea {
 
             <div class="card">
                 <div class="card-header">
-                    <span class="card-title">Prompt Otimizado para Vídeo</span>
+                    <span class="card-title"><span class="card-title-dot"></span> Prompt Otimizado para Vídeo</span>
                     <div class="header-actions">
                         <button type="button" class="btn btn-secondary btn-sm" onclick="copyText('vid-output')">Copiar</button>
                         <button type="button" class="btn btn-sm" onclick="saveProject('Bloco de Vídeo', 'vid-output')">Salvar</button>
@@ -706,22 +1184,22 @@ textarea {
         </div>
     </section>
 
-    <!-- ABA 3: ROTEIRISTA -->
+    <!-- ABA 3: ROTEIRISTA IA -->
     <section id="tab-script" class="tab-section">
         <div class="grid-2">
             <div class="card">
                 <div class="card-header">
-                    <span class="card-title">Roteirista Viral (Hooks & CTAs)</span>
+                    <span class="card-title"><span class="card-title-dot"></span> Roteirista IA (Hooks & Conversão)</span>
                 </div>
 
                 <div class="form-group">
                     <label for="script-product">Nome do Produto ou Oferta</label>
-                    <input type="text" id="script-product" placeholder="Ex: Fone de Ouvido Smart">
+                    <input type="text" id="script-product" placeholder="Ex: Conjunto Academia Sem Costura">
                 </div>
 
                 <div class="form-group">
                     <label for="script-pain">Principal Dor ou Desejo</label>
-                    <input type="text" id="script-pain" placeholder="Ex: Fones que caem durante o treino">
+                    <input type="text" id="script-pain" placeholder="Ex: Roupa que marca ou fica transparente no treino">
                 </div>
 
                 <div class="form-group">
@@ -734,14 +1212,14 @@ textarea {
                 </div>
 
                 <div class="btn-group-stack">
-                    <button type="button" class="btn btn-full" onclick="generateScript()">📝 Criar Roteiro Completo</button>
+                    <button type="button" class="btn btn-full" onclick="generateScript()">📝 Gerar Roteiro Completo</button>
                     <button type="button" class="btn btn-flow btn-full" onclick="openGoogleFlow('script')">🚀 Abrir no Google Flow</button>
                 </div>
             </div>
 
             <div class="card">
                 <div class="card-header">
-                    <span class="card-title">Roteiro Estruturado (Português)</span>
+                    <span class="card-title"><span class="card-title-dot"></span> Roteiro Estruturado (Português)</span>
                     <div class="header-actions">
                         <button type="button" class="btn btn-secondary btn-sm" onclick="copyText('script-output')">Copiar</button>
                         <button type="button" class="btn btn-sm" onclick="saveProject('Roteiro UGC', 'script-output')">Salvar</button>
@@ -753,11 +1231,11 @@ textarea {
         </div>
     </section>
 
-    <!-- ABA 4: CONSISTÊNCIA DE AVATAR -->
+    <!-- ABA 4: GERENCIADOR DE INFLUENCIADORAS -->
     <section id="tab-avatars" class="tab-section">
         <div class="card">
             <div class="card-header">
-                <span class="card-title">Gerenciamento de Avatar (Identidade Tiana)</span>
+                <span class="card-title"><span class="card-title-dot"></span> Gerenciador de Influenciadoras (Identidade Visual)</span>
 
                 <div class="header-actions">
                     <button type="button" class="btn btn-secondary btn-sm" onclick="copyText('av-output')">Copiar</button>
@@ -767,15 +1245,27 @@ textarea {
 
             <div class="grid-2">
                 <div>
+                    <!-- Card Visual da Influenciadora Ativa -->
+                    <div class="influencer-hero">
+                        <div class="influencer-photo">T</div>
+                        <div class="influencer-details">
+                            <div class="influencer-details-top">
+                                <strong>Tiana — Influenciadora Oficial</strong>
+                                <span class="seed-badge">● Identidade Fixa</span>
+                            </div>
+                            <p>Japa-brasileira • 24 anos • Cabelo preto longo e liso • Pele natural sem tatuagens</p>
+                        </div>
+                    </div>
+
                     <div class="form-group">
-                        <label for="av-select-mgr">Selecionar Avatar para Editar</label>
+                        <label for="av-select-mgr">Selecionar Influenciadora</label>
                         <select id="av-select-mgr" onchange="loadAvatarIntoForm()">
                             <option value="Tiana">Tiana (Principal)</option>
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label for="av-name">Nome do Avatar</label>
+                        <label for="av-name">Nome da Influenciadora</label>
                         <input type="text" id="av-name" value="Tiana">
                     </div>
 
@@ -785,7 +1275,7 @@ textarea {
                     </div>
 
                     <div class="btn-group-stack">
-                        <button type="button" class="btn btn-full" onclick="saveAvatarChanges()">💾 Salvar Alterações do Avatar</button>
+                        <button type="button" class="btn btn-full" onclick="saveAvatarChanges()">💾 Salvar Influenciadora</button>
                         <button type="button" class="btn btn-flow btn-full" onclick="openGoogleFlow('avatar')">🚀 Abrir no Flow</button>
                     </div>
                     <div style="margin-top: 10px;">
@@ -804,7 +1294,7 @@ textarea {
     <section id="tab-library" class="tab-section">
         <div class="card">
             <div class="card-header">
-                <span class="card-title">Biblioteca de Projetos & Mídia</span>
+                <span class="card-title"><span class="card-title-dot"></span> Biblioteca de Prompts & Projetos Salvos</span>
                 <div class="header-actions">
                     <button type="button" class="btn btn-secondary btn-sm" onclick="renderProjects()">🔄 Atualizar</button>
                     <button type="button" class="btn btn-danger btn-sm" onclick="clearProjects()">Limpar Tudo</button>
@@ -817,9 +1307,9 @@ textarea {
 
     <!-- ABA 6: CONFIGURAÇÕES -->
     <section id="tab-settings" class="tab-section">
-        <div class="card" style="max-width:650px;">
+        <div class="card" style="max-width:680px;">
             <div class="card-header">
-                <span class="card-title">⚙️ Google Flow (Veo & Imagen) & Supabase</span>
+                <span class="card-title"><span class="card-title-dot"></span> Configurações — Google Flow & Supabase</span>
             </div>
 
             <div class="form-group">
@@ -828,14 +1318,14 @@ textarea {
             </div>
 
             <div class="header-actions" style="margin-bottom: 24px;">
-                <button type="button" class="btn btn-flow" onclick="saveFlowConfig()">Salvar Link do Flow</button>
+                <button type="button" class="btn" onclick="saveFlowConfig()">Salvar Link do Flow</button>
                 <a id="flow-direct-link" class="btn btn-secondary" href="https://flow.google.com" target="_blank" rel="noopener noreferrer">🌐 Acessar Flow Agora</a>
             </div>
 
             <hr style="border:0; border-top:1px solid var(--border-color); margin: 24px 0;">
 
-            <div class="card-header" style="margin-bottom:12px;">
-                <span class="card-title" style="font-size:0.95rem;">Supabase (Banco de Dados)</span>
+            <div class="card-header" style="margin-bottom:14px;">
+                <span class="card-title" style="font-size:0.95rem;"><span class="card-title-dot"></span> Conexão Supabase (Banco de Dados)</span>
             </div>
 
             <div class="form-group">
@@ -860,7 +1350,7 @@ textarea {
 <div id="edit-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="edit-modal-heading">
     <div class="modal-box">
         <div class="card-header">
-            <span class="card-title" id="edit-modal-heading">Editar Projeto</span>
+            <span class="card-title" id="edit-modal-heading"><span class="card-title-dot"></span> Editar Projeto</span>
         </div>
 
         <input type="hidden" id="edit-project-id">
@@ -1088,6 +1578,7 @@ function loadAvatarIntoForm() {
 
     if ($('av-name')) $('av-name').value = avatar.name;
     if ($('av-traits')) $('av-traits').value = avatar.traits;
+    if ($('av-output')) $('av-output').innerText = buildAvatarPromptData().fullText;
 }
 
 function saveAvatarChanges() {
@@ -1098,6 +1589,7 @@ function saveAvatarChanges() {
     if (saveCustomAvatar(name, traits, oldName)) {
         $('av-select-mgr').value = name;
         $('ugc-avatar').value = name;
+        if ($('av-output')) $('av-output').innerText = buildAvatarPromptData().fullText;
         showToast('Avatar salvo e atualizado!');
     }
 }
@@ -1287,6 +1779,9 @@ async function saveProject(type, elementId) {
         } else if (elementId === 'script-output') {
             generateScript();
             content = getOutputText(elementId);
+        } else if (elementId === 'av-output') {
+            content = buildAvatarPromptData().fullText;
+            $('av-output').innerText = content;
         } else {
             showToast('Gere o conteúdo antes de salvar.');
             return;
@@ -1492,92 +1987,4 @@ async function connectSupabase() {
     try {
         const client = window.supabase.createClient(url, key);
         supabaseClient = client;
-        localStorage.setItem(SUPABASE_CONFIG_KEY, JSON.stringify({ url, key }));
-
-        const { error } = await client.from('projects').select('id').limit(1);
-        if (error) {
-            setDatabaseStatus('Supabase: verificar tabela', false);
-            showToast('Conectado, verifique se a tabela "projects" existe no Supabase.');
-            return;
-        }
-
-        setDatabaseStatus('Supabase conectado', true);
-        await loadRemoteProjects();
-        showToast('Supabase conectado e sincronizado!');
-    } catch (error) {
-        supabaseClient = null;
-        setDatabaseStatus('Armazenamento Local Ativo', false);
-        showToast('Não foi possível conectar ao Supabase.');
-    }
-}
-
-async function initSavedSupabase() {
-    try {
-        const raw = localStorage.getItem(SUPABASE_CONFIG_KEY);
-        if (!raw || !window.supabase) return;
-
-        const config = JSON.parse(raw);
-        if (!config.url || !config.key) return;
-
-        if ($('sb-url')) $('sb-url').value = config.url;
-        if ($('sb-key')) $('sb-key').value = config.key;
-
-        supabaseClient = window.supabase.createClient(config.url, config.key);
-        await loadRemoteProjects();
-        setDatabaseStatus('Supabase configurado', true);
-    } catch (error) {
-        setDatabaseStatus('Armazenamento Local Ativo', false);
-    }
-}
-
-function disconnectSupabase() {
-    supabaseClient = null;
-    localStorage.removeItem(SUPABASE_CONFIG_KEY);
-    if ($('sb-url')) $('sb-url').value = '';
-    if ($('sb-key')) $('sb-key').value = '';
-    setDatabaseStatus('Armazenamento Local Ativo', false);
-    showToast('Supabase desconectado.');
-}
-
-function switchTab(tabId, element) {
-    const target = $(tabId);
-    if (!target) return;
-
-    document.querySelectorAll('.tab-section').forEach(section => section.classList.remove('active'));
-    document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-
-    target.classList.add('active');
-    const activeNav = element || document.querySelector(`.nav-item[data-tab="${tabId}"]`);
-    if (activeNav) activeNav.classList.add('active');
-
-    const titles = {
-        'tab-ugc': ['Gerador UGC & Cena', 'Crie prompts otimizados em storyboard de 3 cenas.'],
-        'tab-video': ['Criar Vídeo (Blocos 10s)', 'Organize vídeos em blocos de até 10 segundos.'],
-        'tab-script': ['Roteirista Viral (Hooks)', 'Crie roteiros persuasivos em português.'],
-        'tab-avatars': ['Consistência de Avatar', 'Gerencie a identidade visual dos seus avatares.'],
-        'tab-library': ['Biblioteca de Projetos', 'Acesse, copie, edite e gerencie seus projetos.'],
-        'tab-settings': ['Google Flow & Supabase', 'Configure seu Flow e banco de dados.']
-    };
-
-    if (titles[tabId]) {
-        $('header-title').textContent = titles[tabId][0];
-        $('header-desc').textContent = titles[tabId][1];
-    }
-
-    if (tabId === 'tab-library') renderProjects();
-    if (tabId === 'tab-avatars') loadAvatarIntoForm();
-}
-
-function initializeStudio() {
-    initSavedFlow();
-    updateAvatarDropdowns();
-    loadAvatarIntoForm();
-    renderProjects();
-    initSavedSupabase();
-}
-
-document.addEventListener('DOMContentLoaded', initializeStudio);
-</script>
-
-</body>
-</html>
+        localStorage.setItem(SUPABASE_
