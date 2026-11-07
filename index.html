@@ -935,17 +935,17 @@ textarea {
     <section id="tab-settings" class="tab-section">
         <div class="card" style="max-width:650px;">
             <div class="card-header">
-                <span class="card-title">⚙️ Google Flow & Supabase</span>
+                <span class="card-title">⚙️ Google Flow (Veo & Imagen) & Supabase</span>
             </div>
 
             <div class="form-group">
                 <label for="flow-url">URL da sua Conta / Projeto no Google Flow</label>
-                <input type="url" id="flow-url" placeholder="https://labs.google/fx/tools/flow">
+                <input type="url" id="flow-url" placeholder="https://flow.google.com/project/...">
             </div>
 
             <div class="header-actions" style="margin-bottom: 24px;">
                 <button type="button" class="btn btn-flow" onclick="saveFlowConfig()">Salvar Link do Flow</button>
-                <a id="flow-direct-link" class="btn btn-secondary" href="https://labs.google/fx/tools/flow" target="_blank" rel="noopener noreferrer">🌐 Acessar Flow Agora</a>
+                <a id="flow-direct-link" class="btn btn-secondary" href="https://flow.google.com" target="_blank" rel="noopener noreferrer">🌐 Acessar Flow Agora</a>
             </div>
 
             <hr style="border:0; border-top:1px solid var(--border-color); margin: 24px 0;">
@@ -1043,16 +1043,24 @@ function initSavedFlow() {
     try {
         const url = localStorage.getItem(FLOW_CONFIG_KEY);
         if (url) {
-            document.getElementById('flow-url').value = url;
-            document.getElementById('flow-direct-link').href = url;
+            const flowInput = document.getElementById('flow-url');
+            const flowLink = document.getElementById('flow-direct-link');
+            if (flowInput) flowInput.value = url;
+            if (flowLink) flowLink.href = url;
         }
     } catch (e) {}
 }
 
 function saveFlowConfig() {
-    const url = document.getElementById('flow-url').value.trim() || 'https://labs.google/fx/tools/flow';
-    localStorage.setItem(FLOW_CONFIG_KEY, url);
-    document.getElementById('flow-direct-link').href = url;
+    const urlInput = document.getElementById('flow-url');
+    const url = urlInput ? urlInput.value.trim() : '';
+    const finalUrl = url || 'https://flow.google.com';
+    
+    localStorage.setItem(FLOW_CONFIG_KEY, finalUrl);
+    
+    const flowLink = document.getElementById('flow-direct-link');
+    if (flowLink) flowLink.href = finalUrl;
+    
     showToast('Link do Google Flow salvo com sucesso!');
 }
 
@@ -1075,7 +1083,7 @@ function openGoogleFlow(sectionType) {
         showToast('Abrindo Google Flow...');
     }
 
-    const savedFlowUrl = localStorage.getItem(FLOW_CONFIG_KEY) || 'https://labs.google/fx/tools/flow';
+    const savedFlowUrl = localStorage.getItem(FLOW_CONFIG_KEY) || 'https://flow.google.com';
     setTimeout(() => {
         window.open(savedFlowUrl, '_blank', 'noopener,noreferrer');
     }, 350);
@@ -1577,4 +1585,195 @@ function renderProjects() {
 
         const deleteBtn = document.createElement('button');
         deleteBtn.type = 'button';
-        deleteBtn.className = 'btn btn-danger btn-
+        deleteBtn.className = 'btn btn-danger btn-sm';
+        deleteBtn.textContent = 'Excluir';
+        deleteBtn.addEventListener('click', () => deleteProject(p.id));
+
+        actions.appendChild(copyBtn);
+        actions.appendChild(editBtn);
+        actions.appendChild(deleteBtn);
+
+        card.appendChild(contentEl);
+        card.appendChild(actions);
+
+        grid.appendChild(card);
+    });
+}
+
+/* EDIÇÃO DE PROJETO */
+
+function openEditModal(projectId) {
+    const projects = getStoredProjects();
+    const target = projects.find(item => String(item.id) === String(projectId));
+
+    if (!target) {
+        alert('Projeto não encontrado.');
+        return;
+    }
+
+    document.getElementById('edit-project-id').value = String(target.id);
+    document.getElementById('edit-project-title').value = target.title || target.type || '';
+    document.getElementById('edit-project-content').value = target.content || '';
+
+    document.getElementById('edit-modal').classList.add('active');
+    document.getElementById('edit-project-title').focus();
+}
+
+function closeEditModal() {
+    document.getElementById('edit-modal').classList.remove('active');
+    document.getElementById('edit-project-id').value = '';
+    document.getElementById('edit-project-title').value = '';
+    document.getElementById('edit-project-content').value = '';
+}
+
+function saveEditedProject() {
+    const projectId = document.getElementById('edit-project-id').value;
+    const newTitle = document.getElementById('edit-project-title').value.trim();
+    const newContent = document.getElementById('edit-project-content').value;
+
+    if (!newTitle) {
+        alert('Por favor, informe um título para o projeto.');
+        document.getElementById('edit-project-title').focus();
+        return;
+    }
+
+    const projects = getStoredProjects();
+    const index = projects.findIndex(item => String(item.id) === String(projectId));
+
+    if (index === -1) {
+        alert('Erro: projeto não localizado.');
+        return;
+    }
+
+    projects[index] = {
+        ...projects[index],
+        title: newTitle,
+        content: newContent
+    };
+
+    if (setStoredProjects(projects)) {
+        closeEditModal();
+        renderProjects();
+        showToast('Projeto atualizado com sucesso!');
+    }
+}
+
+/* EXCLUIR PROJETO */
+
+function deleteProject(projectId) {
+    const projects = getStoredProjects();
+    const target = projects.find(item => String(item.id) === String(projectId));
+
+    if (!target) {
+        alert('Projeto não encontrado.');
+        return;
+    }
+
+    const label = target.title || target.type || 'este projeto';
+    const confirmed = confirm(`Tem certeza que deseja excluir "${label}"?`);
+
+    if (!confirmed) return;
+
+    const updated = projects.filter(item => String(item.id) !== String(projectId));
+
+    if (setStoredProjects(updated)) {
+        renderProjects();
+        showToast('Projeto excluído com sucesso!');
+    }
+}
+
+/* LIMPAR BIBLIOTECA */
+
+function clearProjects() {
+    const projects = getStoredProjects();
+
+    if (projects.length === 0) {
+        alert('A Biblioteca já está vazia.');
+        return;
+    }
+
+    const confirmed = confirm('Tem certeza que deseja excluir TODOS os projetos salvos?');
+    if (!confirmed) return;
+
+    try {
+        localStorage.removeItem(STORAGE_KEY);
+        renderProjects();
+        showToast('Biblioteca limpa!');
+    } catch (err) {
+        alert('Não foi possível limpar a Biblioteca.');
+    }
+}
+
+/* MODAL: ESC E CLIQUE FORA */
+
+document.getElementById('edit-modal').addEventListener('click', function(e) {
+    if (e.target === this) closeEditModal();
+});
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && document.getElementById('edit-modal').classList.contains('active')) {
+        closeEditModal();
+    }
+});
+
+/* SUPABASE */
+
+function initSavedSupabase() {
+    try {
+        const raw = localStorage.getItem(SUPABASE_CONFIG_KEY);
+        if (!raw) return;
+
+        const cfg = JSON.parse(raw);
+        if (cfg && cfg.url && cfg.key) {
+            document.getElementById('sb-url').value = cfg.url;
+            document.getElementById('sb-key').value = cfg.key;
+
+            if (window.supabase && typeof window.supabase.createClient === 'function') {
+                supabaseClient = window.supabase.createClient(cfg.url, cfg.key);
+                document.getElementById('db-status').innerText = 'Cliente Supabase Inicializado';
+            }
+        }
+    } catch (e) {}
+}
+
+function connectSupabase() {
+    const url = document.getElementById('sb-url').value.trim();
+    const key = document.getElementById('sb-key').value.trim();
+
+    if (!url || !key) {
+        alert('Preencha a URL e a Anon Key corretamente.');
+        return;
+    }
+
+    if (!window.supabase || typeof window.supabase.createClient !== 'function') {
+        alert('A biblioteca do Supabase não foi carregada.');
+        return;
+    }
+
+    try {
+        supabaseClient = window.supabase.createClient(url, key);
+        localStorage.setItem(SUPABASE_CONFIG_KEY, JSON.stringify({ url, key }));
+        document.getElementById('db-status').innerText = 'Cliente Supabase Inicializado';
+        showToast('Supabase conectado!');
+    } catch (err) {
+        alert('Erro ao inicializar Supabase.');
+    }
+}
+
+function disconnectSupabase() {
+    supabaseClient = null;
+    localStorage.removeItem(SUPABASE_CONFIG_KEY);
+    document.getElementById('sb-url').value = '';
+    document.getElementById('sb-key').value = '';
+    document.getElementById('db-status').innerText = 'Armazenamento Local Ativo';
+    showToast('Credenciais do Supabase removidas.');
+}
+
+/* INICIALIZAÇÃO */
+initSavedFlow();
+initSavedSupabase();
+renderProjects();
+</script>
+
+</body>
+</html>
