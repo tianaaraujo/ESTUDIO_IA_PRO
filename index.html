@@ -139,7 +139,7 @@ nav.menu {
 }
 
 .menu-section-title {
-    padding: 14px 10px 6px;
+    padding: 12px 10px 4px;
     font-size: 0.68rem;
     font-weight: 700;
     text-transform: uppercase;
@@ -148,13 +148,13 @@ nav.menu {
 }
 
 .nav-item {
-    padding: 11px 12px;
+    padding: 10px 12px;
     color: var(--text-muted);
     text-decoration: none;
     display: flex;
     align-items: center;
     gap: 11px;
-    font-size: 0.88rem;
+    font-size: 0.86rem;
     font-weight: 500;
     border-radius: var(--radius-md);
     transition: all 0.18s ease;
@@ -194,7 +194,7 @@ nav.menu {
 }
 
 .sidebar-footer {
-    padding: 14px 16px;
+    padding: 12px 16px;
     border-top: 1px solid var(--border-color);
 }
 
@@ -263,7 +263,7 @@ header.top-bar {
 
 .top-bar-left {
     display: flex;
-     flex-direction: column;
+    flex-direction: column;
     gap: 4px;
 }
 
@@ -328,7 +328,7 @@ header.top-bar {
     box-shadow: 0 0 8px var(--success);
 }
 
-/* FAIXA VISUAL DAS 3 CENAS (ESTILO STUDIO) */
+/* FAIXA VISUAL DAS 3 CENAS */
 .scenes-strip {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -440,7 +440,7 @@ header.top-bar {
     flex-wrap: wrap;
 }
 
-/* GERENCIADOR DE INFLUENCIADORAS (CARD VISUAL) */
+/* GERENCIADOR DE INFLUENCIADORAS */
 .influencer-hero {
     background: linear-gradient(135deg, rgba(0, 102, 255, 0.14), rgba(17, 19, 26, 0.95));
     border: 1px solid rgba(0, 102, 255, 0.3);
@@ -666,7 +666,7 @@ textarea {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* SAÍDA DE PROMPTS & STORYBOARD */
+/* SAÍDA DE PROMPTS */
 .output-box {
     background-color: var(--bg-input);
     border: 1px solid var(--border-color);
@@ -681,7 +681,7 @@ textarea {
     line-height: 1.65;
 }
 
-/* BIBLIOTECA DE PROJETOS */
+/* BIBLIOTECA */
 .project-item {
     background: var(--bg-panel);
     border: 1px solid var(--border-color);
@@ -819,7 +819,7 @@ textarea {
     transform: translateY(0);
 }
 
-/* RESPONSIVIDADE (TABLET & CELULAR / iPHONE) */
+/* RESPONSIVIDADE */
 @media (max-width: 1080px) {
     .grid-2 { grid-template-columns: 1fr; }
     .scenes-strip { grid-template-columns: 1fr; gap: 10px; }
@@ -828,10 +828,7 @@ textarea {
 }
 
 @media (max-width: 760px) {
-    body {
-        display: block;
-    }
-
+    body { display: block; }
     aside {
         position: sticky;
         top: 0;
@@ -843,17 +840,8 @@ textarea {
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
     }
-
-    .brand {
-        padding: 12px 16px;
-    }
-
-    .sidebar-cta,
-    .sidebar-footer,
-    .menu-section-title {
-        display: none;
-    }
-
+    .brand { padding: 12px 16px; }
+    .sidebar-cta, .sidebar-footer, .menu-section-title { display: none; }
     nav.menu {
         flex-direction: row;
         overflow-x: auto;
@@ -861,11 +849,7 @@ textarea {
         gap: 8px;
         scrollbar-width: none;
     }
-
-    nav.menu::-webkit-scrollbar {
-        display: none;
-    }
-
+    nav.menu::-webkit-scrollbar { display: none; }
     .nav-item {
         width: auto;
         flex: 0 0 auto;
@@ -876,58 +860,19 @@ textarea {
         background: var(--bg-card);
         border: 1px solid var(--border-color);
     }
-
     .nav-item.active {
         background: var(--accent-blue);
         border-color: var(--accent-blue);
         color: #fff;
     }
-
-    .nav-item.active svg {
-        stroke: #fff;
-    }
-
-    main {
-        margin-left: 0;
-        padding: 16px 14px 36px;
-        width: 100%;
-    }
-
-    header.top-bar {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 12px;
-        margin-bottom: 18px;
-        padding-bottom: 14px;
-    }
-
-    .top-bar-right {
-        width: 100%;
-        justify-content: space-between;
-    }
-
-    .page-title h1 {
-        font-size: 1.25rem;
-    }
-
-    .grid-2,
-    .grid-3,
-    .btn-group-stack {
-        grid-template-columns: 1fr;
-        gap: 12px;
-    }
-
-    .card {
-        padding: 16px;
-        margin-bottom: 16px;
-    }
-
-    .toast-msg {
-        left: 14px;
-        right: 14px;
-        bottom: 16px;
-        text-align: center;
-    }
+    .nav-item.active svg { stroke: #fff; }
+    main { margin-left: 0; padding: 16px 14px 36px; width: 100%; }
+    header.top-bar { flex-direction: column; align-items: flex-start; gap: 12px; margin-bottom: 18px; padding-bottom: 14px; }
+    .top-bar-right { width: 100%; justify-content: space-between; }
+    .page-title h1 { font-size: 1.25rem; }
+    .grid-2, .grid-3, .btn-group-stack { grid-template-columns: 1fr; gap: 12px; }
+    .card { padding: 16px; margin-bottom: 16px; }
+    .toast-msg { left: 14px; right: 14px; bottom: 16px; text-align: center; }
 }
 </style>
 </head>
@@ -1043,7 +988,6 @@ textarea {
 
     <!-- ABA 1: PRODUÇÃO UGC & 3 CENAS -->
     <section id="tab-ugc" class="tab-section active">
-        <!-- Visualização Rápida das 3 Cenas -->
         <div class="scenes-strip">
             <div class="scene-preview-card">
                 <div class="scene-badge-num">01</div>
@@ -1082,9 +1026,7 @@ textarea {
                 <div class="grid-2" style="gap:12px;">
                     <div class="form-group">
                         <label for="ugc-avatar">Influenciadora (Avatar)</label>
-                        <select id="ugc-avatar">
-                            <!-- Preenchido via JS -->
-                        </select>
+                        <select id="ugc-avatar"></select>
                     </div>
 
                     <div class="form-group">
@@ -1236,7 +1178,6 @@ textarea {
         <div class="card">
             <div class="card-header">
                 <span class="card-title"><span class="card-title-dot"></span> Gerenciador de Influenciadoras (Identidade Visual)</span>
-
                 <div class="header-actions">
                     <button type="button" class="btn btn-secondary btn-sm" onclick="copyText('av-output')">Copiar</button>
                     <button type="button" class="btn btn-sm" onclick="saveProject('Avatar Sheet', 'av-output')">Salvar</button>
@@ -1245,7 +1186,6 @@ textarea {
 
             <div class="grid-2">
                 <div>
-                    <!-- Card Visual da Influenciadora Ativa -->
                     <div class="influencer-hero">
                         <div class="influencer-photo">T</div>
                         <div class="influencer-details">
@@ -1987,4 +1927,18 @@ async function connectSupabase() {
     try {
         const client = window.supabase.createClient(url, key);
         supabaseClient = client;
-        localStorage.setItem(SUPABASE_
+        localStorage.setItem(SUPABASE_CONFIG_KEY, JSON.stringify({ url, key }));
+
+        const { error } = await client.from('projects').select('id').limit(1);
+        if (error) {
+            setDatabaseStatus('Supabase: verificar tabela', false);
+            showToast('Conectado, verifique se a tabela "projects" existe no Supabase.');
+            return;
+        }
+
+        setDatabaseStatus('Supabase conectado', true);
+        await loadRemoteProjects();
+        showToast('Supabase conectado e sincronizado!');
+    } catch (error) {
+        supabaseClient = null;
+        setDatab
