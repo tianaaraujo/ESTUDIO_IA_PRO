@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Estúdio IA PRO — UGC & AI Production Studio</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 :root {
@@ -22,9 +21,7 @@
     --border-color: #1e2230;
     --border-highlight: #2a3042;
     --danger: #ef4444;
-    --danger-hover: #dc2626;
     --success: #10b981;
-    --warning: #f59e0b;
     --radius-lg: 14px;
     --radius-md: 10px;
     --radius-sm: 8px;
@@ -40,15 +37,12 @@
 
 body {
     background-color: var(--bg-deep);
-    background-image: radial-gradient(circle at 85% 0%, rgba(0, 102, 255, 0.07) 0%, transparent 45%);
     color: var(--text-main);
     display: flex;
     min-height: 100vh;
     overflow-x: hidden;
-    -webkit-text-size-adjust: 100%;
 }
 
-/* SIDEBAR COMPACTA E MODERNA */
 aside {
     width: 248px;
     background-color: var(--bg-panel);
@@ -61,7 +55,7 @@ aside {
 }
 
 .brand {
-    padding: 20px 20px 16px;
+    padding: 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -74,18 +68,18 @@ aside {
     gap: 10px;
     font-size: 1.15rem;
     font-weight: 800;
-    letter-spacing: -0.03em;
 }
 
 .brand-logo-icon {
     width: 32px;
     height: 32px;
     border-radius: 8px;
-    background: linear-gradient(135deg, var(--accent-blue), #0044aa);
+    background: var(--accent-blue);
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 12px var(--accent-blue-glow);
+    color: #fff;
+    font-weight: bold;
 }
 
 .brand span {
@@ -100,38 +94,26 @@ aside {
     padding: 3px 7px;
     border-radius: 6px;
     font-weight: 700;
-    letter-spacing: 0.06em;
 }
 
 .sidebar-cta {
-    padding: 16px 16px 6px;
+    padding: 16px;
 }
 
 .btn-new-prod {
     width: 100%;
-    background: linear-gradient(135deg, var(--accent-blue), #0052cc);
+    background: var(--accent-blue);
     color: #fff;
     border: none;
-    padding: 11px 14px;
+    padding: 11px;
     border-radius: var(--radius-md);
     font-size: 0.85rem;
     font-weight: 600;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
     cursor: pointer;
-    box-shadow: 0 4px 16px var(--accent-blue-glow);
-    transition: all 0.2s ease;
-}
-
-.btn-new-prod:hover {
-    filter: brightness(1.1);
 }
 
 nav.menu {
     padding: 10px 12px;
-    overflow-y: auto;
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -144,113 +126,38 @@ nav.menu {
     font-weight: 700;
     text-transform: uppercase;
     color: var(--text-muted);
-    letter-spacing: 0.08em;
 }
 
 .nav-item {
-    padding: 10px 12px;
+    padding: 11px 12px;
     color: var(--text-muted);
     text-decoration: none;
     display: flex;
     align-items: center;
     gap: 11px;
-    font-size: 0.86rem;
+    font-size: 0.88rem;
     font-weight: 500;
     border-radius: var(--radius-md);
-    transition: all 0.18s ease;
     cursor: pointer;
-    user-select: none;
     background: transparent;
     border: 1px solid transparent;
     width: 100%;
     text-align: left;
 }
 
-.nav-item svg {
-    width: 18px;
-    height: 18px;
-    stroke: currentColor;
-    stroke-width: 2;
-    fill: none;
-    flex-shrink: 0;
-    opacity: 0.85;
-}
-
-.nav-item:hover {
-    color: var(--text-main);
-    background-color: var(--bg-card-hover);
-}
-
-.nav-item.active {
-    color: #ffffff;
+.nav-item:hover, .nav-item.active {
+    color: #fff;
     background-color: var(--accent-blue-soft);
     border-color: rgba(0, 102, 255, 0.35);
-    font-weight: 600;
 }
 
-.nav-item.active svg {
-    stroke: #3b82f6;
-    opacity: 1;
-}
-
-.sidebar-footer {
-    padding: 12px 16px;
-    border-top: 1px solid var(--border-color);
-}
-
-.creator-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-md);
-    padding: 10px 12px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.creator-avatar-mini {
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #0066ff, #60a5fa);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 800;
-    font-size: 0.85rem;
-    color: #fff;
-    flex-shrink: 0;
-}
-
-.creator-meta {
-    overflow: hidden;
-}
-
-.creator-meta strong {
-    display: block;
-    font-size: 0.8rem;
-    color: var(--text-main);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.creator-meta span {
-    font-size: 0.7rem;
-    color: #60a5fa;
-    font-weight: 600;
-}
-
-/* ÁREA PRINCIPAL */
 main {
     margin-left: 248px;
     flex: 1;
     padding: 26px 34px 40px;
     max-width: 1560px;
-    width: 100%;
 }
 
-/* CABEÇALHO SUPERIOR */
 header.top-bar {
     display: flex;
     justify-content: space-between;
@@ -258,77 +165,18 @@ header.top-bar {
     margin-bottom: 24px;
     padding-bottom: 18px;
     border-bottom: 1px solid var(--border-color);
-    gap: 16px;
-}
-
-.top-bar-left {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.studio-breadcrumb {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.72rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.07em;
-    color: #60a5fa;
 }
 
 .page-title h1 {
     font-size: 1.5rem;
     font-weight: 700;
-    letter-spacing: -0.02em;
 }
 
 .page-title p {
     color: var(--text-muted);
     font-size: 0.86rem;
-    margin-top: 2px;
 }
 
-.top-bar-right {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.version-pill {
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    padding: 7px 12px;
-    border-radius: 999px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--text-muted);
-}
-
-.status-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    padding: 7px 14px;
-    border-radius: 999px;
-    font-size: 0.78rem;
-    font-weight: 500;
-    color: var(--text-main);
-    white-space: nowrap;
-}
-
-.status-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background-color: var(--success);
-    box-shadow: 0 0 8px var(--success);
-}
-
-/* FAIXA VISUAL DAS 3 CENAS */
 .scenes-strip {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -337,64 +185,19 @@ header.top-bar {
 }
 
 .scene-preview-card {
-    background: linear-gradient(180deg, rgba(17, 19, 26, 0.95), rgba(11, 12, 16, 0.95));
+    background: var(--bg-card);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-md);
     padding: 14px 16px;
     display: flex;
     align-items: center;
     gap: 12px;
-    position: relative;
-    overflow: hidden;
 }
 
-.scene-preview-card::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 3px;
-    background: var(--accent-blue);
-}
-
-.scene-badge-num {
-    width: 34px;
-    height: 34px;
-    border-radius: 8px;
-    background: var(--accent-blue-soft);
-    border: 1px solid rgba(0, 102, 255, 0.3);
-    color: #60a5fa;
-    font-weight: 700;
-    font-size: 0.8rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-}
-
-.scene-info strong {
-    display: block;
-    font-size: 0.84rem;
-    color: var(--text-main);
-}
-
-.scene-info span {
-    font-size: 0.75rem;
-    color: var(--text-muted);
-}
-
-/* GRID & CARDS PRINCIPAIS */
 .grid-2 {
     display: grid;
-    grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+    grid-template-columns: 1fr 1fr;
     gap: 22px;
-}
-
-.grid-3 {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-    gap: 18px;
 }
 
 .card {
@@ -403,108 +206,19 @@ header.top-bar {
     border-radius: var(--radius-lg);
     padding: 22px;
     margin-bottom: 22px;
-    min-width: 0;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
 }
 
 .card-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 12px;
     margin-bottom: 18px;
     padding-bottom: 12px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    flex-wrap: wrap;
 }
 
-.card-title {
-    font-size: 1rem;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.card-title-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--accent-blue);
-    display: inline-block;
-}
-
-.header-actions {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-}
-
-/* GERENCIADOR DE INFLUENCIADORAS */
-.influencer-hero {
-    background: linear-gradient(135deg, rgba(0, 102, 255, 0.14), rgba(17, 19, 26, 0.95));
-    border: 1px solid rgba(0, 102, 255, 0.3);
-    border-radius: var(--radius-md);
-    padding: 16px;
-    margin-bottom: 18px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-}
-
-.influencer-photo {
-    width: 58px;
-    height: 58px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 30% 30%, #3b82f6, #003380);
-    border: 2px solid var(--accent-blue);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.35rem;
-    font-weight: 800;
-    color: #fff;
-    flex-shrink: 0;
-    box-shadow: 0 0 16px var(--accent-blue-glow);
-}
-
-.influencer-details {
-    flex: 1;
-    min-width: 0;
-}
-
-.influencer-details-top {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
-}
-
-.influencer-details strong {
-    font-size: 1rem;
-    color: #fff;
-}
-
-.seed-badge {
-    font-size: 0.68rem;
-    background: rgba(16, 185, 129, 0.15);
-    color: #34d399;
-    border: 1px solid rgba(16, 185, 129, 0.35);
-    padding: 2px 8px;
-    border-radius: 999px;
-    font-weight: 600;
-}
-
-.influencer-details p {
-    font-size: 0.78rem;
-    color: var(--text-muted);
-    margin-top: 4px;
-}
-
-/* FORMULÁRIOS */
 .form-group {
     margin-bottom: 16px;
-    min-width: 0;
 }
 
 label {
@@ -514,12 +228,9 @@ label {
     color: var(--text-muted);
     margin-bottom: 7px;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
 }
 
-input,
-select,
-textarea {
+input, select, textarea {
     width: 100%;
     background-color: var(--bg-input);
     border: 1px solid var(--border-color);
@@ -528,32 +239,8 @@ textarea {
     border-radius: var(--radius-sm);
     font-size: 16px;
     outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
-    appearance: none;
-    -webkit-appearance: none;
 }
 
-select {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%2394a3b8' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 14px center;
-    padding-right: 36px;
-}
-
-input:focus,
-select:focus,
-textarea:focus {
-    border-color: var(--accent-blue);
-    box-shadow: 0 0 0 3px var(--accent-blue-glow);
-}
-
-textarea {
-    resize: vertical;
-    min-height: 110px;
-    line-height: 1.5;
-}
-
-/* BOTÕES */
 .btn {
     display: inline-flex;
     align-items: center;
@@ -561,240 +248,37 @@ textarea {
     gap: 8px;
     background-color: var(--accent-blue);
     color: #fff;
-    border: 1px solid transparent;
+    border: none;
     padding: 12px 18px;
     border-radius: var(--radius-sm);
     font-size: 0.88rem;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.2s;
-    touch-action: manipulation;
-    user-select: none;
-    text-decoration: none;
-    box-shadow: 0 4px 14px rgba(0, 102, 255, 0.22);
-}
-
-.btn:hover {
-    background-color: var(--accent-blue-hover);
-}
-
-.btn:active {
-    transform: scale(0.99);
-}
-
-.btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-.btn-secondary {
-    background-color: var(--bg-card-hover);
-    border: 1px solid var(--border-highlight);
-    color: var(--text-main);
-    box-shadow: none;
-}
-
-.btn-secondary:hover {
-    background-color: #202534;
-}
-
-.btn-success {
-    background-color: var(--bg-card-hover);
-    border: 1px solid rgba(0, 102, 255, 0.45);
-    color: #60a5fa;
-    box-shadow: none;
-}
-
-.btn-success:hover {
-    background-color: var(--accent-blue-soft);
-    color: #fff;
-}
-
-.btn-flow {
-    background: linear-gradient(135deg, #1e293b, #0f172a);
-    border: 1px solid var(--border-highlight);
-    color: #e2e8f0;
-    box-shadow: none;
-}
-
-.btn-flow:hover {
-    border-color: var(--accent-blue);
-    color: #fff;
-}
-
-.btn-danger {
-    background-color: rgba(239, 68, 68, 0.15);
-    border: 1px solid rgba(239, 68, 68, 0.35);
-    color: #f87171;
-    box-shadow: none;
-}
-
-.btn-danger:hover {
-    background-color: var(--danger);
-    color: #fff;
-}
-
-.btn-full {
     width: 100%;
 }
 
-.btn-sm {
-    padding: 7px 12px;
-    font-size: 0.78rem;
-    border-radius: 6px;
+.btn:hover { background-color: var(--accent-blue-hover); }
+
+.btn-secondary {
+    background-color: var(--bg-card-hover);
+    border: 1px solid var(--border-color);
 }
 
-.btn-group-stack {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-top: 8px;
-}
+.tab-section { display: none; }
+.tab-section.active { display: block; }
 
-/* ABAS */
-.tab-section {
-    display: none;
-}
-
-.tab-section.active {
-    display: block;
-    animation: fadeIn 0.18s ease-out;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(4px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* SAÍDA DE PROMPTS */
 .output-box {
     background-color: var(--bg-input);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-md);
     padding: 16px;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: monospace;
     font-size: 0.84rem;
     color: #e2e8f0;
     white-space: pre-wrap;
-    overflow-wrap: anywhere;
     min-height: 250px;
-    line-height: 1.65;
 }
 
-/* BIBLIOTECA */
-.project-item {
-    background: var(--bg-panel);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-md);
-    padding: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    min-width: 0;
-    transition: border-color 0.2s;
-}
-
-.project-item:hover {
-    border-color: var(--border-highlight);
-}
-
-.project-header-meta {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 8px;
-}
-
-.project-title {
-    font-size: 0.94rem;
-    font-weight: 600;
-    color: var(--text-main);
-    word-break: break-word;
-}
-
-.project-tag {
-    align-self: flex-start;
-    font-size: 0.68rem;
-    background: var(--accent-blue-soft);
-    color: #60a5fa;
-    border: 1px solid rgba(0, 102, 255, 0.28);
-    padding: 3px 8px;
-    border-radius: 6px;
-    font-weight: 600;
-}
-
-.project-content {
-    font-size: 0.8rem;
-    color: #cbd5e1;
-    white-space: pre-wrap;
-    overflow-wrap: anywhere;
-    max-height: 140px;
-    overflow-y: auto;
-    background: var(--bg-input);
-    padding: 10px;
-    border-radius: var(--radius-sm);
-    border: 1px solid var(--border-color);
-    flex: 1;
-}
-
-.project-actions {
-    display: flex;
-    justify-content: flex-end;
-    flex-wrap: wrap;
-    gap: 8px;
-    padding-top: 8px;
-    border-top: 1px solid var(--border-color);
-}
-
-/* MODAL */
-.modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.78);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 200;
-    padding: 18px;
-}
-
-.modal-overlay.active {
-    display: flex;
-}
-
-.modal-box {
-    background: var(--bg-card);
-    border: 1px solid var(--border-highlight);
-    border-radius: var(--radius-lg);
-    width: 100%;
-    max-width: 600px;
-    padding: 22px;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
-    max-height: 90vh;
-    overflow-y: auto;
-}
-
-.modal-footer {
-    display: flex;
-    justify-content: flex-end;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 18px;
-}
-
-.empty-message {
-    color: var(--text-muted);
-    font-size: 0.85rem;
-    padding: 28px 20px;
-    text-align: center;
-    border: 1px dashed var(--border-highlight);
-    border-radius: var(--radius-md);
-    grid-column: 1 / -1;
-}
-
-/* NOTIFICAÇÃO TOAST */
 .toast-msg {
     position: fixed;
     bottom: 24px;
@@ -802,1143 +286,190 @@ textarea {
     background: var(--bg-card);
     color: var(--text-main);
     border: 1px solid var(--accent-blue);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.75);
     padding: 12px 18px;
     border-radius: var(--radius-sm);
     font-size: 0.85rem;
-    font-weight: 500;
     z-index: 300;
     opacity: 0;
-    transform: translateY(12px);
-    pointer-events: none;
-    transition: all 0.22s ease;
+    transition: opacity 0.2s;
 }
-
-.toast-msg.show {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* RESPONSIVIDADE */
-@media (max-width: 1080px) {
-    .grid-2 { grid-template-columns: 1fr; }
-    .scenes-strip { grid-template-columns: 1fr; gap: 10px; }
-    aside { width: 220px; }
-    main { margin-left: 220px; padding: 22px; }
-}
+.toast-msg.show { opacity: 1; }
 
 @media (max-width: 760px) {
     body { display: block; }
-    aside {
-        position: sticky;
-        top: 0;
-        width: 100%;
-        height: auto;
-        border-right: none;
-        border-bottom: 1px solid var(--border-color);
-        background-color: rgba(11, 12, 16, 0.96);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-    }
-    .brand { padding: 12px 16px; }
-    .sidebar-cta, .sidebar-footer, .menu-section-title { display: none; }
-    nav.menu {
-        flex-direction: row;
-        overflow-x: auto;
-        padding: 8px 12px;
-        gap: 8px;
-        scrollbar-width: none;
-    }
-    nav.menu::-webkit-scrollbar { display: none; }
-    .nav-item {
-        width: auto;
-        flex: 0 0 auto;
-        padding: 9px 13px;
-        font-size: 0.8rem;
-        white-space: nowrap;
-        border-radius: 999px;
-        background: var(--bg-card);
-        border: 1px solid var(--border-color);
-    }
-    .nav-item.active {
-        background: var(--accent-blue);
-        border-color: var(--accent-blue);
-        color: #fff;
-    }
-    .nav-item.active svg { stroke: #fff; }
-    main { margin-left: 0; padding: 16px 14px 36px; width: 100%; }
-    header.top-bar { flex-direction: column; align-items: flex-start; gap: 12px; margin-bottom: 18px; padding-bottom: 14px; }
-    .top-bar-right { width: 100%; justify-content: space-between; }
-    .page-title h1 { font-size: 1.25rem; }
-    .grid-2, .grid-3, .btn-group-stack { grid-template-columns: 1fr; gap: 12px; }
-    .card { padding: 16px; margin-bottom: 16px; }
-    .toast-msg { left: 14px; right: 14px; bottom: 16px; text-align: center; }
+    aside { position: relative; width: 100%; height: auto; }
+    main { margin-left: 0; padding: 16px; }
+    .grid-2, .scenes-strip { grid-template-columns: 1fr; }
+    nav.menu { flex-direction: row; overflow-x: auto; }
 }
 </style>
 </head>
 
 <body>
 
-<!-- MENU LATERAL COMPACTO -->
 <aside>
     <div class="brand">
         <div class="brand-left">
-            <div class="brand-logo-icon">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                </svg>
-            </div>
+            <div class="brand-logo-icon">▶</div>
             <div>ESTÚDIO <span>IA</span></div>
         </div>
         <span class="badge-pro">PRO V3.5</span>
     </div>
 
     <div class="sidebar-cta">
-        <button type="button" class="btn-new-prod" onclick="switchTab('tab-ugc', document.querySelector('[data-tab=tab-ugc]'))">
-            + Nova Produção UGC
-        </button>
+        <button type="button" class="btn-new-prod" onclick="switchTab('tab-ugc')">+ Nova Produção UGC</button>
     </div>
 
     <nav class="menu">
-        <div class="menu-section-title">Estúdio de Criação</div>
-
-        <button type="button" class="nav-item active" data-tab="tab-ugc" onclick="switchTab('tab-ugc', this)">
-            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-                <line x1="8" y1="21" x2="16" y2="21"></line>
-                <line x1="12" y1="17" x2="12" y2="21"></line>
-            </svg>
-            <span>Cena UGC (3 Cenas)</span>
-        </button>
-
-        <button type="button" class="nav-item" data-tab="tab-video" onclick="switchTab('tab-video', this)">
-            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                <polygon points="23 7 16 12 23 17 23 7"></polygon>
-                <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
-            </svg>
-            <span>Vídeo 10s (Veo)</span>
-        </button>
-
-        <button type="button" class="nav-item" data-tab="tab-script" onclick="switchTab('tab-script', this)">
-            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                <polyline points="14 2 14 8 20 8"></polyline>
-                <line x1="16" y1="13" x2="8" y2="13"></line>
-                <line x1="16" y1="17" x2="8" y2="17"></line>
-            </svg>
-            <span>Roteirista IA</span>
-        </button>
-
-        <button type="button" class="nav-item" data-tab="tab-avatars" onclick="switchTab('tab-avatars', this)">
-            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                <circle cx="12" cy="7" r="4"></circle>
-            </svg>
-            <span>Influenciadoras</span>
-        </button>
-
-        <div class="menu-section-title">Gerenciamento</div>
-
-        <button type="button" class="nav-item" data-tab="tab-library" onclick="switchTab('tab-library', this)">
-            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
-            </svg>
-            <span>Biblioteca</span>
-        </button>
-
-        <button type="button" class="nav-item" data-tab="tab-settings" onclick="switchTab('tab-settings', this)">
-            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="3"></circle>
-                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-            </svg>
-            <span>Configurações</span>
-        </button>
+        <div class="menu-section-title">Estúdio</div>
+        <button type="button" class="nav-item active" id="nav-tab-ugc" onclick="switchTab('tab-ugc')">🎬 Cena UGC (3 Cenas)</button>
+        <button type="button" class="nav-item" id="nav-tab-script" onclick="switchTab('tab-script')">📝 Roteirista IA</button>
+        <button type="button" class="nav-item" id="nav-tab-avatars" onclick="switchTab('tab-avatars')">👤 Influenciadoras</button>
+        <button type="button" class="nav-item" id="nav-tab-library" onclick="switchTab('tab-library')">📚 Biblioteca</button>
     </nav>
-
-    <div class="sidebar-footer">
-        <div class="creator-card">
-            <div class="creator-avatar-mini">T</div>
-            <div class="creator-meta">
-                <strong>Creator Pro</strong>
-                <span>Tiana • Seed Ativa</span>
-            </div>
-        </div>
-    </div>
 </aside>
 
-<!-- CONTEÚDO PRINCIPAL -->
 <main>
     <header class="top-bar">
-        <div class="top-bar-left">
-            <div class="studio-breadcrumb">ESTÚDIO IA PRO • AI VIDEO & UGC DASHBOARD</div>
-            <div class="page-title">
-                <h1 id="header-title">Gerador UGC & Cena</h1>
-                <p id="header-desc">Crie prompts otimizados em storyboard de 3 cenas para o Google Flow.</p>
-            </div>
+        <div class="page-title">
+            <h1 id="header-title">Gerador UGC & Cena</h1>
+            <p id="header-desc">Crie prompts otimizados em storyboard de 3 cenas.</p>
         </div>
-
-        <div class="top-bar-right">
-            <span class="version-pill">V3.5 PRO</span>
-            <div class="status-pill">
-                <span class="status-dot" id="db-dot"></span>
-                <span id="db-status">Armazenamento Local Ativo</span>
-            </div>
-        </div>
+        <span class="badge-pro">Sistema Local Ativo</span>
     </header>
 
-    <!-- ABA 1: PRODUÇÃO UGC & 3 CENAS -->
+    <!-- ABA 1: UGC -->
     <section id="tab-ugc" class="tab-section active">
         <div class="scenes-strip">
-            <div class="scene-preview-card">
-                <div class="scene-badge-num">01</div>
-                <div class="scene-info">
-                    <strong>Cena 1 • 0 a 3s (POV / Gancho)</strong>
-                    <span>Close-up nas mãos e detalhe do produto</span>
-                </div>
-            </div>
-            <div class="scene-preview-card">
-                <div class="scene-badge-num">02</div>
-                <div class="scene-info">
-                    <strong>Cena 2 • 3 a 7s (Apresentação)</strong>
-                    <span>Influenciadora demonstrando na prática</span>
-                </div>
-            </div>
-            <div class="scene-preview-card">
-                <div class="scene-badge-num">03</div>
-                <div class="scene-info">
-                    <strong>Cena 3 • 7 a 10s (Fechamento CTA)</strong>
-                    <span>Sorriso + chamada para o link da oferta</span>
-                </div>
-            </div>
+            <div class="scene-preview-card"><strong>01</strong><span>POV / Gancho (0-3s)</span></div>
+            <div class="scene-preview-card"><strong>02</strong><span>Apresentação (3-7s)</span></div>
+            <div class="scene-preview-card"><strong>03</strong><span>CTA (7-10s)</span></div>
         </div>
 
         <div class="grid-2">
             <div class="card">
-                <div class="card-header">
-                    <span class="card-title"><span class="card-title-dot"></span> Parâmetros da Cena UGC</span>
-                </div>
-
+                <div class="card-header"><h3>Parâmetros da Cena</h3></div>
                 <div class="form-group">
-                    <label for="ugc-product">Produto / Nicho</label>
-                    <input type="text" id="ugc-product" placeholder="Ex: Conjunto Fitness Academia, Fone sem fio, Sérum...">
+                    <label>Produto / Nicho</label>
+                    <input type="text" id="ugc-product" placeholder="Ex: Conjunto Fitness...">
                 </div>
-
-                <div class="grid-2" style="gap:12px;">
-                    <div class="form-group">
-                        <label for="ugc-avatar">Influenciadora (Avatar)</label>
-                        <select id="ugc-avatar"></select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="ugc-env">Ambiente / Cenário</label>
-                        <input type="text" id="ugc-env" placeholder="Ex: Academia moderna, Quarto minimalista...">
-                    </div>
-                </div>
-
-                <div class="grid-2" style="gap:12px;">
-                    <div class="form-group">
-                        <label for="ugc-outfit">Roupa / Vestuário</label>
-                        <input type="text" id="ugc-outfit" placeholder="Ex: Conjunto fitness preto, camiseta branca...">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="ugc-camera">Estilo de Câmera</label>
-                        <select id="ugc-camera">
-                            <option value="Shot on iPhone 15 Pro, câmera frontal 9:16 vertical, handheld selfie">Selfie iPhone 15 Pro (9:16)</option>
-                            <option value="POV Shot, câmera apoiada na mesa, foco nítido no produto">POV Mesa / Unboxing</option>
-                            <option value="Lente 35mm cinematográfica, profundidade de campo rasa">Cinematográfico Comercial</option>
-                        </select>
-                    </div>
-                </div>
-
                 <div class="form-group">
-                    <label for="ugc-action">Ação Principal da Influenciadora</label>
-                    <input type="text" id="ugc-action" placeholder="Ex: Mostrando o caimento no espelho e sorrindo">
+                    <label>Influenciadora</label>
+                    <input type="text" id="ugc-avatar" value="Tiana (Principal)">
                 </div>
-
-                <div class="btn-group-stack">
-                    <button type="button" class="btn btn-full" onclick="generateUGCPrompt()">⚡ Gerar Prompts (3 Cenas)</button>
-                    <button type="button" class="btn btn-flow btn-full" onclick="openGoogleFlow('ugc')">🚀 Copiar & Abrir Flow</button>
+                <div class="form-group">
+                    <label>Cenário / Ambiente</label>
+                    <input type="text" id="ugc-env" placeholder="Ex: Academia moderna...">
                 </div>
-                <div style="margin-top: 10px;">
-                    <button type="button" class="btn btn-success btn-full" id="btn-gen-ugc-img" onclick="generateDirectImage('ugc')">🖼️ Preparar Imagem no Flow</button>
-                </div>
+                <button type="button" class="btn" onclick="generateUGC()">⚡ Gerar Prompts (3 Cenas)</button>
             </div>
 
             <div class="card">
                 <div class="card-header">
-                    <span class="card-title"><span class="card-title-dot"></span> Storyboard & Prompt de Produção</span>
-                    <div class="header-actions">
-                        <button type="button" class="btn btn-secondary btn-sm" onclick="copyText('ugc-output')">Copiar</button>
-                        <button type="button" class="btn btn-sm" onclick="saveProject('UGC 3 Cenas', 'ugc-output')">Salvar</button>
-                    </div>
+                    <h3>Storyboard Gerado</h3>
+                    <button type="button" class="btn btn-secondary" style="width:auto; padding:6px 12px;" onclick="copyOutput('ugc-output')">Copiar</button>
                 </div>
-
-                <div id="ugc-output" class="output-box">Preencha os parâmetros ao lado e clique em "Gerar Prompts" para criar o storyboard de 3 cenas (POV, Apresentação e CTA)...</div>
+                <div id="ugc-output" class="output-box">Preencha os campos ao lado e clique em gerar...</div>
             </div>
         </div>
     </section>
 
-    <!-- ABA 2: VÍDEO EM BLOCOS DE 10 SEGUNDOS -->
-    <section id="tab-video" class="tab-section">
-        <div class="grid-2">
-            <div class="card">
-                <div class="card-header">
-                    <span class="card-title"><span class="card-title-dot"></span> Produção de Vídeo (Blocos de 10s)</span>
-                </div>
-
-                <div class="form-group">
-                    <label for="vid-product">Produto / Oferta</label>
-                    <input type="text" id="vid-product" placeholder="Ex: Conjunto Fitness Smart, Fone Bluetooth...">
-                </div>
-
-                <div class="form-group">
-                    <label for="vid-block-num">Bloco da Cena (10 Segundos)</label>
-                    <select id="vid-block-num">
-                        <option value="1">Bloco 1 (0-10s): Gancho e Abertura</option>
-                        <option value="2">Bloco 2 (10-20s): Demonstração Prática</option>
-                        <option value="3">Bloco 3 (20-30s): Chamada para Ação (CTA)</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="vid-action">Ação e Fala Sincronizada (Português)</label>
-                    <textarea id="vid-action" placeholder="Descreva o movimento da Tiana e o que ela fala para sincronizar com o Veo..."></textarea>
-                </div>
-
-                <div class="btn-group-stack">
-                    <button type="button" class="btn btn-full" onclick="generateVideoBlockPrompt()">🎬 Gerar Prompt Veo (10s)</button>
-                    <button type="button" class="btn btn-flow btn-full" onclick="openGoogleFlow('video')">🚀 Abrir no Flow</button>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <span class="card-title"><span class="card-title-dot"></span> Prompt Otimizado para Vídeo</span>
-                    <div class="header-actions">
-                        <button type="button" class="btn btn-secondary btn-sm" onclick="copyText('vid-output')">Copiar</button>
-                        <button type="button" class="btn btn-sm" onclick="saveProject('Bloco de Vídeo', 'vid-output')">Salvar</button>
-                    </div>
-                </div>
-
-                <div id="vid-output" class="output-box">O prompt técnico para geração de vídeo de 10 segundos aparecerá aqui...</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ABA 3: ROTEIRISTA IA -->
+    <!-- ABA 2: ROTEIRISTA -->
     <section id="tab-script" class="tab-section">
         <div class="grid-2">
             <div class="card">
-                <div class="card-header">
-                    <span class="card-title"><span class="card-title-dot"></span> Roteirista IA (Hooks & Conversão)</span>
-                </div>
-
+                <div class="card-header"><h3>Roteirista IA</h3></div>
                 <div class="form-group">
-                    <label for="script-product">Nome do Produto ou Oferta</label>
-                    <input type="text" id="script-product" placeholder="Ex: Conjunto Academia Sem Costura">
+                    <label>Nome do Produto</label>
+                    <input type="text" id="script-product" placeholder="Ex: Fone Bluetooth">
                 </div>
-
                 <div class="form-group">
-                    <label for="script-pain">Principal Dor ou Desejo</label>
-                    <input type="text" id="script-pain" placeholder="Ex: Roupa que marca ou fica transparente no treino">
+                    <label>Principal Dor / Desejo</label>
+                    <input type="text" id="script-pain" placeholder="Ex: Bateria acaba rápido">
                 </div>
-
-                <div class="form-group">
-                    <label for="script-framework">Estrutura de Copywriting</label>
-                    <select id="script-framework">
-                        <option value="PAS">PAS (Problema → Agitação → Solução)</option>
-                        <option value="CONTRARIAN">Quebra de Padrão / Polêmico</option>
-                        <option value="STORY">Storytelling Pessoal</option>
-                    </select>
-                </div>
-
-                <div class="btn-group-stack">
-                    <button type="button" class="btn btn-full" onclick="generateScript()">📝 Gerar Roteiro Completo</button>
-                    <button type="button" class="btn btn-flow btn-full" onclick="openGoogleFlow('script')">🚀 Abrir no Google Flow</button>
-                </div>
+                <button type="button" class="btn" onclick="generateScript()">📝 Gerar Roteiro</button>
             </div>
-
             <div class="card">
                 <div class="card-header">
-                    <span class="card-title"><span class="card-title-dot"></span> Roteiro Estruturado (Português)</span>
-                    <div class="header-actions">
-                        <button type="button" class="btn btn-secondary btn-sm" onclick="copyText('script-output')">Copiar</button>
-                        <button type="button" class="btn btn-sm" onclick="saveProject('Roteiro UGC', 'script-output')">Salvar</button>
-                    </div>
+                    <h3>Roteiro Pronto</h3>
+                    <button type="button" class="btn btn-secondary" style="width:auto; padding:6px 12px;" onclick="copyOutput('script-output')">Copiar</button>
                 </div>
-
-                <div id="script-output" class="output-box">Seu roteiro com Gancho (3s), Corpo e CTA aparecerá aqui...</div>
+                <div id="script-output" class="output-box">Seu roteiro aparecerá aqui...</div>
             </div>
         </div>
     </section>
 
-    <!-- ABA 4: GERENCIADOR DE INFLUENCIADORAS -->
+    <!-- ABA 3: INFLUENCIADORAS -->
     <section id="tab-avatars" class="tab-section">
-        <div class="card">
-            <div class="card-header">
-                <span class="card-title"><span class="card-title-dot"></span> Gerenciador de Influenciadoras (Identidade Visual)</span>
-                <div class="header-actions">
-                    <button type="button" class="btn btn-secondary btn-sm" onclick="copyText('av-output')">Copiar</button>
-                    <button type="button" class="btn btn-sm" onclick="saveProject('Avatar Sheet', 'av-output')">Salvar</button>
-                </div>
+        <div class="card" style="max-width:600px;">
+            <div class="card-header"><h3>Gerenciador de Avatar</h3></div>
+            <div class="form-group">
+                <label>Nome</label>
+                <input type="text" value="Tiana">
             </div>
-
-            <div class="grid-2">
-                <div>
-                    <div class="influencer-hero">
-                        <div class="influencer-photo">T</div>
-                        <div class="influencer-details">
-                            <div class="influencer-details-top">
-                                <strong>Tiana — Influenciadora Oficial</strong>
-                                <span class="seed-badge">● Identidade Fixa</span>
-                            </div>
-                            <p>Japa-brasileira • 24 anos • Cabelo preto longo e liso • Pele natural sem tatuagens</p>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="av-select-mgr">Selecionar Influenciadora</label>
-                        <select id="av-select-mgr" onchange="loadAvatarIntoForm()">
-                            <option value="Tiana">Tiana (Principal)</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="av-name">Nome da Influenciadora</label>
-                        <input type="text" id="av-name" value="Tiana">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="av-traits">Características Físicas Fixas (Seed Visual)</label>
-                        <textarea id="av-traits">Tiana, influenciadora digital brasileira de aproximadamente 24 anos, morena dourada, traços orientais suaves de japa-brasileira, olhos castanhos claros, cabelo preto longo e liso, pele com textura natural e realista, sem tatuagens. Manter rigorosamente a mesma identidade facial, proporções e características em todas as imagens e vídeos.</textarea>
-                    </div>
-
-                    <div class="btn-group-stack">
-                        <button type="button" class="btn btn-full" onclick="saveAvatarChanges()">💾 Salvar Influenciadora</button>
-                        <button type="button" class="btn btn-flow btn-full" onclick="openGoogleFlow('avatar')">🚀 Abrir no Flow</button>
-                    </div>
-                    <div style="margin-top: 10px;">
-                        <button type="button" class="btn btn-success btn-full" id="btn-gen-av-img" onclick="generateDirectImage('avatar')">🖼️ Preparar Avatar no Flow</button>
-                    </div>
-                </div>
-
-                <div>
-                    <div id="av-output" class="output-box">O prompt de identidade visual e sheet do avatar selecionado aparecerá aqui...</div>
-                </div>
+            <div class="form-group">
+                <label>Características (Seed Visual)</label>
+                <textarea>Tiana, influenciadora digital brasileira de aproximadamente 24 anos, cabelo preto longo e liso, olhos castanhos claros, pele natural.</textarea>
             </div>
+            <button type="button" class="btn" onclick="showToast('Avatar salvo com sucesso!')">💾 Salvar Alterações</button>
         </div>
     </section>
 
-    <!-- ABA 5: BIBLIOTECA DE PROJETOS -->
+    <!-- ABA 4: BIBLIOTECA -->
     <section id="tab-library" class="tab-section">
         <div class="card">
-            <div class="card-header">
-                <span class="card-title"><span class="card-title-dot"></span> Biblioteca de Prompts & Projetos Salvos</span>
-                <div class="header-actions">
-                    <button type="button" class="btn btn-secondary btn-sm" onclick="renderProjects()">🔄 Atualizar</button>
-                    <button type="button" class="btn btn-danger btn-sm" onclick="clearProjects()">Limpar Tudo</button>
-                </div>
-            </div>
-
-            <div id="projects-grid" class="grid-3"></div>
-        </div>
-    </section>
-
-    <!-- ABA 6: CONFIGURAÇÕES -->
-    <section id="tab-settings" class="tab-section">
-        <div class="card" style="max-width:680px;">
-            <div class="card-header">
-                <span class="card-title"><span class="card-title-dot"></span> Configurações — Google Flow & Supabase</span>
-            </div>
-
-            <div class="form-group">
-                <label for="flow-url">URL da sua Conta / Projeto no Google Flow</label>
-                <input type="url" id="flow-url" placeholder="https://flow.google.com/project/...">
-            </div>
-
-            <div class="header-actions" style="margin-bottom: 24px;">
-                <button type="button" class="btn" onclick="saveFlowConfig()">Salvar Link do Flow</button>
-                <a id="flow-direct-link" class="btn btn-secondary" href="https://flow.google.com" target="_blank" rel="noopener noreferrer">🌐 Acessar Flow Agora</a>
-            </div>
-
-            <hr style="border:0; border-top:1px solid var(--border-color); margin: 24px 0;">
-
-            <div class="card-header" style="margin-bottom:14px;">
-                <span class="card-title" style="font-size:0.95rem;"><span class="card-title-dot"></span> Conexão Supabase (Banco de Dados)</span>
-            </div>
-
-            <div class="form-group">
-                <label for="sb-url">Supabase Project URL</label>
-                <input type="url" id="sb-url" placeholder="https://seu-projeto.supabase.co">
-            </div>
-
-            <div class="form-group">
-                <label for="sb-key">Supabase Anon Key</label>
-                <input type="password" id="sb-key" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...">
-            </div>
-
-            <div class="header-actions">
-                <button type="button" class="btn" onclick="connectSupabase()">Salvar & Conectar Supabase</button>
-                <button type="button" class="btn btn-secondary" onclick="disconnectSupabase()">Remover Supabase</button>
-            </div>
+            <div class="card-header"><h3>Projetos Salvos</h3></div>
+            <p style="color:var(--text-muted); font-size:0.9rem;">Nenhum projeto salvo no momento.</p>
         </div>
     </section>
 </main>
 
-<!-- MODAL DE EDIÇÃO -->
-<div id="edit-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="edit-modal-heading">
-    <div class="modal-box">
-        <div class="card-header">
-            <span class="card-title" id="edit-modal-heading"><span class="card-title-dot"></span> Editar Projeto</span>
-        </div>
-
-        <input type="hidden" id="edit-project-id">
-
-        <div class="form-group">
-            <label for="edit-project-title">Nome / Título do Projeto</label>
-            <input type="text" id="edit-project-title" placeholder="Digite o título...">
-        </div>
-
-        <div class="form-group">
-            <label for="edit-project-content">Conteúdo do Projeto</label>
-            <textarea id="edit-project-content" style="min-height:220px; font-family:'JetBrains Mono', monospace; font-size:0.85rem;"></textarea>
-        </div>
-
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" onclick="closeEditModal()">Cancelar</button>
-            <button type="button" class="btn" onclick="saveEditedProject()">Salvar Alterações</button>
-        </div>
-    </div>
-</div>
-
-<!-- NOTIFICAÇÃO TOAST -->
-<div id="toast-notification" class="toast-msg" role="status" aria-live="polite"></div>
+<div id="toast" class="toast-msg">Ação realizada!</div>
 
 <script>
-'use strict';
-
-const STORAGE_KEY = 'estudio_ia_projects';
-const SUPABASE_CONFIG_KEY = 'estudio_ia_supabase_config';
-const FLOW_CONFIG_KEY = 'estudio_ia_flow_config';
-const CUSTOM_AVATARS_KEY = 'estudio_ia_custom_avatars';
-
-let supabaseClient = null;
-let toastTimeout = null;
-let editingProjectId = null;
-
-const DEFAULT_AVATAR = {
-    name: 'Tiana',
-    traits: 'Tiana, influenciadora digital brasileira de aproximadamente 24 anos, morena dourada, traços orientais suaves de japa-brasileira, olhos castanhos claros, cabelo preto longo e liso, pele com textura natural e realista, sem tatuagens. Manter rigorosamente a mesma identidade facial, proporções e características em todas as imagens e vídeos.'
-};
-
-const DEFAULT_OUTPUT_PLACEHOLDERS = new Set([
-    'Preencha os parâmetros ao lado e clique em "Gerar Prompts" para criar o storyboard de 3 cenas (POV, Apresentação e CTA)...',
-    'Seu roteiro com Gancho (3s), Corpo e CTA aparecerá aqui...',
-    'O prompt de identidade visual e sheet do avatar selecionado aparecerá aqui...',
-    'O prompt técnico para geração de vídeo de 10 segundos aparecerá aqui...'
-]);
-
-function $(id) {
-    return document.getElementById(id);
+function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2500);
 }
 
-function showToast(message) {
-    const toast = $('toast-notification');
-    if (!toast) return;
-
-    toast.textContent = message;
-    toast.classList.add('show');
-
-    if (toastTimeout) clearTimeout(toastTimeout);
-
-    toastTimeout = setTimeout(() => {
-        toast.classList.remove('show');
-    }, 2800);
+function switchTab(tabId) {
+    document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    
+    document.getElementById(tabId).classList.add('active');
+    const navBtn = document.getElementById('nav-' + tabId);
+    if (navBtn) navBtn.classList.add('active');
 }
 
-function generateUniqueId() {
-    return `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
-}
-
-function safeText(value) {
-    return String(value ?? '').trim();
-}
-
-function getOutputText(id) {
-    const element = $(id);
-    return element ? (element.innerText || element.textContent || '').trim() : '';
-}
-
-/* GOOGLE FLOW */
-
-function getFlowUrl() {
-    const saved = localStorage.getItem(FLOW_CONFIG_KEY);
-    return saved || 'https://flow.google.com';
-}
-
-function initSavedFlow() {
-    const url = getFlowUrl();
-    if ($('flow-url')) $('flow-url').value = url;
-    if ($('flow-direct-link')) $('flow-direct-link').href = url;
-}
-
-function saveFlowConfig() {
-    const input = $('flow-url');
-    let url = safeText(input?.value);
-
-    if (!url) url = 'https://flow.google.com';
-
-    try {
-        const parsed = new URL(url);
-        if (!['https:', 'http:'].includes(parsed.protocol)) {
-            throw new Error('URL inválida');
-        }
-
-        localStorage.setItem(FLOW_CONFIG_KEY, url);
-        if ($('flow-direct-link')) $('flow-direct-link').href = url;
-        showToast('Link do Google Flow salvo!');
-    } catch (error) {
-        showToast('Informe um endereço válido do Google Flow.');
-    }
-}
-
-function getPromptForFlow(sectionType) {
-    if (sectionType === 'ugc') return buildUGCPromptData().fullText;
-    if (sectionType === 'avatar') return buildAvatarPromptData().fullText;
-    if (sectionType === 'script') return getOutputText('script-output');
-    if (sectionType === 'video') return getOutputText('vid-output');
-    return '';
-}
-
-function openGoogleFlow(sectionType) {
-    const url = getFlowUrl();
-    const flowWindow = window.open(url, '_blank');
-    const prompt = getPromptForFlow(sectionType);
-
-    if (prompt && !DEFAULT_OUTPUT_PLACEHOLDERS.has(prompt)) {
-        copyRawString(prompt, 'Prompt copiado! Cole-o no Google Flow.');
-    } else {
-        showToast('Google Flow aberto.');
-    }
-
-    if (!flowWindow) {
-        showToast('O navegador bloqueou a janela. Autorize pop-ups para o Flow.');
-    }
-}
-
-/* AVATARES */
-
-function getCustomAvatars() {
-    try {
-        const raw = localStorage.getItem(CUSTOM_AVATARS_KEY);
-        const parsed = raw ? JSON.parse(raw) : [];
-
-        if (Array.isArray(parsed)) {
-            const avatars = parsed.filter(avatar => avatar && avatar.name && avatar.traits);
-            if (!avatars.some(a => a.name === DEFAULT_AVATAR.name)) {
-                avatars.unshift(DEFAULT_AVATAR);
-            }
-            return avatars;
-        }
-    } catch (error) {
-        console.warn('Erro ao carregar avatares:', error);
-    }
-    return [DEFAULT_AVATAR];
-}
-
-function saveCustomAvatar(name, traits, oldName = '') {
-    name = safeText(name);
-    traits = safeText(traits);
-
-    if (!name || !traits) {
-        showToast('Preencha o nome e as características do avatar.');
-        return false;
-    }
-
-    const avatars = getCustomAvatars();
-    const filtered = avatars.filter(avatar => {
-        return avatar.name.toLowerCase() !== name.toLowerCase() && avatar.name !== oldName;
-    });
-
-    filtered.unshift({ name, traits });
-
-    try {
-        localStorage.setItem(CUSTOM_AVATARS_KEY, JSON.stringify(filtered));
-        updateAvatarDropdowns(name);
-        return true;
-    } catch (error) {
-        showToast('Não foi possível salvar o avatar.');
-        return false;
-    }
-}
-
-function updateAvatarDropdowns(selectedName = '') {
-    const ugcSelect = $('ugc-avatar');
-    const managerSelect = $('av-select-mgr');
-
-    if (!ugcSelect || !managerSelect) return;
-
-    const oldUgc = selectedName || ugcSelect.value || 'Tiana';
-    const oldManager = selectedName || managerSelect.value || 'Tiana';
-    const avatars = getCustomAvatars();
-
-    ugcSelect.innerHTML = '';
-    managerSelect.innerHTML = '';
-
-    avatars.forEach(avatar => {
-        const option1 = document.createElement('option');
-        option1.value = avatar.name;
-        option1.textContent = avatar.name;
-        ugcSelect.appendChild(option1);
-
-        const option2 = document.createElement('option');
-        option2.value = avatar.name;
-        option2.textContent = avatar.name;
-        managerSelect.appendChild(option2);
-    });
-
-    ugcSelect.value = avatars.some(a => a.name === oldUgc) ? oldUgc : 'Tiana';
-    managerSelect.value = avatars.some(a => a.name === oldManager) ? oldManager : 'Tiana';
-}
-
-function getSelectedAvatar() {
-    const name = $('ugc-avatar')?.value || 'Tiana';
-    return getCustomAvatars().find(a => a.name === name) || DEFAULT_AVATAR;
-}
-
-function getSelectedAvatarTraits() {
-    return getSelectedAvatar().traits;
-}
-
-function loadAvatarIntoForm() {
-    const name = $('av-select-mgr')?.value || 'Tiana';
-    const avatar = getCustomAvatars().find(a => a.name === name);
-    if (!avatar) return;
-
-    if ($('av-name')) $('av-name').value = avatar.name;
-    if ($('av-traits')) $('av-traits').value = avatar.traits;
-    if ($('av-output')) $('av-output').innerText = buildAvatarPromptData().fullText;
-}
-
-function saveAvatarChanges() {
-    const name = safeText($('av-name')?.value);
-    const traits = safeText($('av-traits')?.value);
-    const oldName = $('av-select-mgr')?.value || '';
-
-    if (saveCustomAvatar(name, traits, oldName)) {
-        $('av-select-mgr').value = name;
-        $('ugc-avatar').value = name;
-        if ($('av-output')) $('av-output').innerText = buildAvatarPromptData().fullText;
-        showToast('Avatar salvo e atualizado!');
-    }
-}
-
-/* PROMPTS */
-
-function buildAvatarPromptData() {
-    const name = safeText($('av-name')?.value) || 'Tiana';
-    const traits = safeText($('av-traits')?.value) || DEFAULT_AVATAR.traits;
-
-    const cleanPrompt = `Create a photorealistic character reference sheet for ${name}.\n\nIDENTITY LOCK:\n${traits}\n\nShow the exact same person in three consistent views:\n1. Front-facing portrait.\n2. Three-quarter side view.\n3. Full-body view.\n\nPreserve identical facial structure, eye color, skin tone, hairstyle, body proportions and identity in every view.\n\nNeutral studio background, realistic skin texture, natural lighting, high-end photography, no tattoos, no text, no watermark. Vertical character reference composition.`;
-
-    return {
-        cleanPrompt,
-        fullText: `=== CHARACTER SHEET ===\n\nAVATAR: ${name}\n\nIDENTIDADE VISUAL FIXA:\n${traits}\n\nPROMPT PARA GOOGLE FLOW / IMAGEN:\n${cleanPrompt}`
-    };
-}
-
-function buildUGCPromptData() {
-    const product = safeText($('ugc-product')?.value) || 'produto em destaque';
-    const avatar = getSelectedAvatarTraits();
-    const env = safeText($('ugc-env')?.value) || 'ambiente natural e moderno';
-    const outfit = safeText($('ugc-outfit')?.value) || 'roupa casual estilosa';
-    const camera = safeText($('ugc-camera')?.value) || 'câmera vertical 9:16';
-    const action = safeText($('ugc-action')?.value) || 'demonstrando o produto naturalmente';
-
-    const scene1 = `CENA 1 — 0 a 3 segundos — POV / GANCHO\n\nCâmera em primeira pessoa. Apenas as mãos aparecem inicialmente, segurando e mostrando ${product} próximo da câmera. Movimento natural, foco nos detalhes e textura do produto. Ambiente: ${env}.\n\nFala em português brasileiro:\n"Olha o que eu encontrei! Você precisa ver isso."`;
-
-    const scene2 = `CENA 2 — 3 a 7 segundos — APRESENTAÇÃO\n\nA influenciadora aparece em plano médio, usando ${outfit}. Ela demonstra ${product}, olha para a câmera e realiza a ação: ${action}.\n\nMovimentos naturais de mãos e corpo. Mostrar o produto de frente e em um ângulo lateral. Manter a mesma identidade facial e o mesmo cenário.\n\nFala em português brasileiro:\n"Eu gostei muito desse produto, principalmente pela praticidade."`;
-
-    const scene3 = `CENA 3 — 7 a 10 segundos — CTA\n\nA influenciadora aproxima o produto da câmera, sorri e aponta discretamente para a parte inferior da tela.\n\nFala em português brasileiro:\n"Se você gostou, toca no link e confere!"`;
-
-    const cleanFlowImagePrompt = `Ultra-realistic UGC product photography, vertical 9:16.\n\nPERSON:\n${avatar}\n\nOUTFIT:\n${outfit}\n\nPRODUCT:\n${product}\n\nACTION:\n${action}\n\nENVIRONMENT:\n${env}\n\nCAMERA:\n${camera}\n\nNatural lighting, authentic smartphone photography, realistic skin texture, natural hands, accurate product details, consistent identity, no extra fingers, no text, no watermark.`;
-
-    const fullText = `ESTÚDIO IA PRO — STORYBOARD UGC\n\nPRODUTO: ${product}\n\nIDENTIDADE FIXA:\n${avatar}\n\nCENÁRIO: ${env}\nROUPA: ${outfit}\n\n${scene1}\n\n${scene2}\n\n${scene3}\n\nPROMPT DE IMAGEM / REFERÊNCIA:\n${cleanFlowImagePrompt}\n\nDIREÇÃO:\nVídeo vertical 9:16.\nDuração total: até 10 segundos.\nFalas sincronizadas com as ações.\nMovimentos naturais.\nNão alterar rosto, cabelo, corpo ou identidade da influenciadora.`;
-
-    return { product, cleanFlowImagePrompt, fullText };
-}
-
-function generateUGCPrompt() {
-    const data = buildUGCPromptData();
-    $('ugc-output').innerText = data.fullText;
-    showToast('Storyboard de 3 cenas criado!');
-    return data;
-}
-
-function generateVideoBlockPrompt() {
-    const product = safeText($('vid-product')?.value) || 'produto';
-    const block = $('vid-block-num')?.value || '1';
-    const action = safeText($('vid-action')?.value) || 'demonstrar o produto com movimentos naturais';
-    const avatar = getSelectedAvatarTraits();
-
-    const blockDescriptions = {
-        '1': 'GANCHO E ABERTURA. Começar com uma ação visual que desperte curiosidade. Mostrar o produto nos primeiros segundos.',
-        '2': 'DEMONSTRAÇÃO PRÁTICA. Mostrar o funcionamento e os detalhes do produto. Incluir ângulos frontal, lateral e close-up quando fizer sentido.',
-        '3': 'FECHAMENTO E CTA. Concluir a demonstração, olhar diretamente para a câmera e fazer uma chamada curta para ação.'
-    };
-
-    const prompt = `GOOGLE FLOW VEO — BLOCO ${block}\n\nDURAÇÃO MÁXIMA: 10 SEGUNDOS\nFORMATO: vertical 9:16.\n\nIDENTIDADE:\n${avatar}\n\nPRODUTO:\n${product}\n\nOBJETIVO DO BLOCO:\n${blockDescriptions[block]}\n\nAÇÃO E FALA:\n${action}\n\nDIREÇÃO DE CENA:\nA fala deve acontecer enquanto a personagem executa a ação, sem ficar parada falando e só depois se movimentar.\n\nUsar movimentos naturais de cabeça, braços e mãos.\nIncluir movimento de câmera suave e realista.\nManter rosto, cabelo, corpo, roupa, cenário e iluminação consistentes.\nSincronizar a fala em português brasileiro com os movimentos da boca.\nA fala precisa terminar dentro dos 10 segundos.\nEvitar frases longas, cortes bruscos e movimentos artificiais.\n\nQualidade: vídeo UGC realista, aparência de gravação profissional com smartphone.`;
-
-    $('vid-output').innerText = prompt;
-    showToast(`Prompt do bloco ${block} gerado!`);
+function generateUGC() {
+    const prod = document.getElementById('ugc-product').value || 'Produto Exemplo';
+    const env = document.getElementById('ugc-env').value || 'Estúdio moderno';
+    
+    const text = `ESTÚDIO IA PRO — STORYBOARD 3 CENAS\n\nPRODUTO: ${prod}\nCENÁRIO: ${env}\n\nCENA 1 (0-3s - POV):\n"Olha o que acabou de chegar!"\n\nCENA 2 (3-7s - Demonstração):\nMostrando os detalhes e a qualidade.\n\nCENA 3 (7-10s - CTA):\n"Clica no link da bio para conferir!"`;
+    
+    document.getElementById('ugc-output').textContent = text;
+    showToast('Prompts gerados com sucesso!');
 }
 
 function generateScript() {
-    const product = safeText($('script-product')?.value) || 'produto';
-    const pain = safeText($('script-pain')?.value) || 'um problema do dia a dia';
-    const framework = $('script-framework')?.value || 'PAS';
-
-    let script = '';
-    if (framework === 'PAS') {
-        script = `ROTEIRO UGC — ESTRUTURA PAS\n\nPRODUTO: ${product}\n\n[00:00–00:03] PROBLEMA / GANCHO\n"Você também sofre com ${pain}? Então olha isso."\n\n[00:03–00:10] AGITAÇÃO\n"É muito chato perder tempo tentando resolver isso e continuar com o mesmo problema."\n\n[00:10–00:22] SOLUÇÃO\n"Eu encontrei ${product} e gostei muito da praticidade. É uma opção que vale a pena conhecer."\n\n[00:22–00:30] CTA\n"Quer conhecer também? Toca no link e confere os detalhes."`;
-    } else if (framework === 'CONTRARIAN') {
-        script = `ROTEIRO UGC — QUEBRA DE PADRÃO\n\nPRODUTO: ${product}\n\n[00:00–00:03] GANCHO\n"Talvez você esteja resolvendo ${pain} do jeito mais difícil."\n\n[00:03–00:12] QUEBRA DE EXPECTATIVA\n"Eu também achava que precisava de uma solução complicada, até conhecer uma alternativa diferente."\n\n[00:12–00:23] PRODUTO\n"Esse é o ${product}. Olha os detalhes e como ele pode facilitar essa tarefa."\n\n[00:23–00:30] CTA\n"Confira no link e veja se faz sentido para você."`;
-    } else {
-        script = `ROTEIRO UGC — STORYTELLING\n\nPRODUTO: ${product}\n\n[00:00–00:03] GANCHO\n"Deixa eu contar uma coisa que aconteceu comigo."\n\n[00:03–00:12] CONTEXTO\n"Eu estava procurando uma forma mais prática de lidar com ${pain}."\n\n[00:12–00:23] DESCOBERTA\n"Foi quando conheci ${product}. Gostei de conhecer essa opção e ver seus detalhes."\n\n[00:23–00:30] CTA\n"Se você também procura algo assim, dá uma olhada no link."`;
-    }
-
-    $('script-output').innerText = script;
-    showToast('Roteiro criado!');
-}
-
-function generateDirectImage(mode) {
-    let prompt = mode === 'ugc' ? buildUGCPromptData().cleanFlowImagePrompt : buildAvatarPromptData().cleanPrompt;
-    copyRawString(prompt, 'Prompt de imagem copiado! Cole no Google Flow.');
+    const prod = document.getElementById('script-product').value || 'Produto';
+    const pain = document.getElementById('script-pain').value || 'sua necessidade';
     
-    const flowWindow = window.open(getFlowUrl(), '_blank');
-    if (!flowWindow) {
-        showToast('Pop-up bloqueado. Abra o Flow pelo botão de acesso.');
-    }
+    const text = `ROTEIRO UGC — ${prod.toUpperCase()}\n\n[0-3s] GANCHO:\n"Cansado de ${pain}? Olha isso aqui."\n\n[3-20s] CORPO:\n"Eu testei e aprovei. Funciona muito bem no dia a dia."\n\n[20-30s] CTA:\n"Garantia e frete grátis no link abaixo."`;
+    
+    document.getElementById('script-output').textContent = text;
+    showToast('Roteiro gerado!');
 }
 
-async function copyRawString(text, feedback = 'Copiado!') {
-    if (!text || !String(text).trim()) {
-        showToast('Não há conteúdo para copiar.');
-        return false;
-    }
-
-    try {
-        if (navigator.clipboard && window.isSecureContext) {
-            await navigator.clipboard.writeText(text);
-            showToast(feedback);
-            return true;
-        }
-    } catch (error) {
-        console.warn('Clipboard API indisponível:', error);
-    }
-
-    const textarea = document.createElement('textarea');
-    textarea.value = text;
-    textarea.style.position = 'fixed';
-    textarea.style.opacity = '0';
-    textarea.style.left = '-9999px';
-
-    document.body.appendChild(textarea);
-    textarea.select();
-
-    let success = false;
-    try {
-        success = document.execCommand('copy');
-    } catch (error) {
-        success = false;
-    }
-    textarea.remove();
-
-    showToast(success ? feedback : 'Não foi possível copiar automaticamente.');
-    return success;
-}
-
-function copyText(elementId) {
-    const text = getOutputText(elementId);
-    if (!text || DEFAULT_OUTPUT_PLACEHOLDERS.has(text)) {
-        showToast('Gere o conteúdo primeiro.');
-        return;
-    }
-    copyRawString(text, 'Copiado para a área de transferência!');
-}
-
-/* BIBLIOTECA & SUPABASE */
-
-function getStoredProjects() {
-    try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        const parsed = raw ? JSON.parse(raw) : [];
-        return Array.isArray(parsed) ? parsed : [];
-    } catch (error) {
-        return [];
-    }
-}
-
-async function setStoredProjects(projects) {
-    try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(projects));
-    } catch (error) {
-        showToast('Erro ao salvar no armazenamento local.');
-        return false;
-    }
-
-    if (supabaseClient && projects.length) {
-        const rows = projects.map(project => ({
-            id: String(project.id),
-            title: project.title,
-            type: project.type,
-            content: project.content,
-            image_url: project.imageUrl || null,
-            created_at: project.createdAt || new Date().toISOString()
-        }));
-
-        const { error } = await supabaseClient.from('projects').upsert(rows, { onConflict: 'id' });
-        if (error) {
-            console.warn('Supabase:', error.message);
-            showToast('Salvo localmente. Falha na sincronização Supabase.');
-            return true;
-        }
-    }
-    return true;
-}
-
-async function saveProject(type, elementId) {
-    const element = $(elementId);
-    if (!element) return;
-
-    let content = getOutputText(elementId);
-    if (!content || DEFAULT_OUTPUT_PLACEHOLDERS.has(content)) {
-        if (elementId === 'ugc-output') {
-            content = generateUGCPrompt().fullText;
-        } else if (elementId === 'script-output') {
-            generateScript();
-            content = getOutputText(elementId);
-        } else if (elementId === 'av-output') {
-            content = buildAvatarPromptData().fullText;
-            $('av-output').innerText = content;
-        } else {
-            showToast('Gere o conteúdo antes de salvar.');
-            return;
-        }
-    }
-
-    const projects = getStoredProjects();
-    projects.unshift({
-        id: generateUniqueId(),
-        title: `${type} • ${new Date().toLocaleString('pt-BR')}`,
-        type,
-        content,
-        imageUrl: '',
-        date: new Date().toLocaleDateString('pt-BR'),
-        createdAt: new Date().toISOString()
-    });
-
-    const success = await setStoredProjects(projects);
-    if (success) {
-        renderProjects();
-        showToast('Projeto salvo na biblioteca!');
-    }
-}
-
-function renderProjects() {
-    const grid = $('projects-grid');
-    if (!grid) return;
-    grid.replaceChildren();
-
-    const projects = getStoredProjects();
-    if (!projects.length) {
-        const empty = document.createElement('p');
-        empty.className = 'empty-message';
-        empty.textContent = 'Nenhum projeto salvo ainda.';
-        grid.appendChild(empty);
-        return;
-    }
-
-    projects.forEach(project => {
-        const card = document.createElement('article');
-        card.className = 'project-item';
-
-        const meta = document.createElement('div');
-        meta.className = 'project-header-meta';
-
-        const tag = document.createElement('span');
-        tag.className = 'project-tag';
-        tag.textContent = `${project.type || 'Projeto'} • ${project.date || ''}`;
-        meta.appendChild(tag);
-
-        const title = document.createElement('div');
-        title.className = 'project-title';
-        title.textContent = project.title || 'Projeto sem título';
-
-        card.append(meta, title);
-
-        const content = document.createElement('div');
-        content.className = 'project-content';
-        content.textContent = project.content || '';
-        card.appendChild(content);
-
-        const actions = document.createElement('div');
-        actions.className = 'project-actions';
-
-        const copyButton = document.createElement('button');
-        copyButton.type = 'button';
-        copyButton.className = 'btn btn-secondary btn-sm';
-        copyButton.textContent = 'Copiar';
-        copyButton.addEventListener('click', () => copyRawString(project.content, 'Conteúdo copiado!'));
-
-        const editButton = document.createElement('button');
-        editButton.type = 'button';
-        editButton.className = 'btn btn-sm';
-        editButton.textContent = 'Editar';
-        editButton.addEventListener('click', () => editProject(project.id));
-
-        const deleteButton = document.createElement('button');
-        deleteButton.type = 'button';
-        deleteButton.className = 'btn btn-danger btn-sm';
-        deleteButton.textContent = 'Excluir';
-        deleteButton.addEventListener('click', () => deleteProject(project.id));
-
-        actions.append(copyButton, editButton, deleteButton);
-        card.appendChild(actions);
-        grid.appendChild(card);
+function copyOutput(id) {
+    const content = document.getElementById(id).textContent;
+    navigator.clipboard.writeText(content).then(() => {
+        showToast('Copiado para a área de transferência!');
     });
 }
+</script>
 
-async function deleteProject(id) {
-    if (!confirm('Excluir este projeto?')) return;
-
-    let projects = getStoredProjects().filter(project => String(project.id) !== String(id));
-    await setStoredProjects(projects);
-
-    if (supabaseClient) {
-        await supabaseClient.from('projects').delete().eq('id', String(id));
-    }
-
-    renderProjects();
-    showToast('Projeto excluído.');
-}
-
-async function clearProjects() {
-    if (!confirm('Deseja realmente apagar todos os projetos?')) return;
-    localStorage.removeItem(STORAGE_KEY);
-
-    if (supabaseClient) {
-        await supabaseClient.from('projects').delete().not('id', 'is', null);
-    }
-
-    renderProjects();
-    showToast('Biblioteca limpa.');
-}
-
-function editProject(id) {
-    const project = getStoredProjects().find(item => String(item.id) === String(id));
-    if (!project) {
-        showToast('Projeto não encontrado.');
-        return;
-    }
-
-    editingProjectId = project.id;
-    $('edit-project-id').value = project.id;
-    $('edit-project-title').value = project.title || '';
-    $('edit-project-content').value = project.content || '';
-    $('edit-modal').classList.add('active');
-}
-
-function closeEditModal() {
-    $('edit-modal')?.classList.remove('active');
-    editingProjectId = null;
-}
-
-async function saveEditedProject() {
-    const id = $('edit-project-id').value;
-    const title = safeText($('edit-project-title').value);
-    const content = safeText($('edit-project-content').value);
-
-    if (!title || !content) {
-        showToast('Preencha o título e o conteúdo.');
-        return;
-    }
-
-    const projects = getStoredProjects();
-    const index = projects.findIndex(project => String(project.id) === String(id));
-
-    if (index < 0) {
-        showToast('Projeto não encontrado.');
-        return;
-    }
-
-    projects[index].title = title;
-    projects[index].content = content;
-    await setStoredProjects(projects);
-
-    closeEditModal();
-    renderProjects();
-    showToast('Projeto atualizado!');
-}
-
-function setDatabaseStatus(message, connected = false) {
-    if ($('db-status')) $('db-status').textContent = message;
-    if ($('db-dot')) {
-        $('db-dot').style.backgroundColor = connected ? 'var(--success)' : 'var(--warning)';
-        $('db-dot').style.boxShadow = connected ? '0 0 8px var(--success)' : 'none';
-    }
-}
-
-async function loadRemoteProjects() {
-    if (!supabaseClient) return;
-    const { data, error } = await supabaseClient.from('projects').select('*').order('created_at', { ascending: false });
-    if (error) return;
-
-    if (Array.isArray(data)) {
-        const remoteProjects = data.map(row => ({
-            id: String(row.id),
-            title: row.title || 'Projeto',
-            type: row.type || 'Projeto',
-            content: row.content || '',
-            imageUrl: row.image_url || '',
-            date: row.created_at ? new Date(row.created_at).toLocaleDateString('pt-BR') : '',
-            createdAt: row.created_at || new Date().toISOString()
-        }));
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(remoteProjects));
-        renderProjects();
-    }
-}
-
-async function connectSupabase() {
-    const url = safeText($('sb-url')?.value);
-    const key = safeText($('sb-key')?.value);
-
-    if (!url || !key) {
-        showToast('Preencha a URL e a chave anon do Supabase.');
-        return;
-    }
-
-    if (!window.supabase) {
-        showToast('Biblioteca Supabase não carregou.');
-        return;
-    }
-
-    try {
-        const client = window.supabase.createClient(url, key);
-        supabaseClient = client;
-        localStorage.setItem(SUPABASE_CONFIG_KEY, JSON.stringify({ url, key }));
-
-        const { error } = await client.from('projects').select('id').limit(1);
-        if (error) {
-            setDatabaseStatus('Supabase: verificar tabela', false);
-            showToast('Conectado, verifique se a tabela "projects" existe no Supabase.');
-            return;
-        }
-
-        setDatabaseStatus('Supabase conectado', true);
-        await loadRemoteProjects();
-        showToast('Supabase conectado e sincronizado!');
-    } catch (error) {
-        supabaseClient = null;
-        setDatab
+</body>
+</html>
